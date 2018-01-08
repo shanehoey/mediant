@@ -7,15 +7,13 @@ header:
   cta_url: "/"
 ---
 
-Manage a AudioCodes Mediant device with PowerSHell
+Manage a AudioCodes Mediant device with Windows PowerShell
 
 ## Latest Release
 
 The latest release of this project is hosted on {{ site.btn_github }} {{ site.btn_poshgal }}
 
-This development version of this project is hosted on {{ site.btn_github }}
-
-{{ site.btn_github }} {{ site.btn_github_watch }} {{ site.btn_github_fork }} {{ site.btn_github_star }}
+This development version of this project is hosted on {{ site.btn_github }} {{ site.btn_github_watch }} {{ site.btn_github_fork }} {{ site.btn_github_star }}
 
 ## Install latest release from PowerShell Gallery (Powershell v5)
 
@@ -27,16 +25,23 @@ install-module -modulename {{ site.title }} -scope currentuser
 
 ## Install manually  (Powershell v3-v4)
 
-1. Copy the {{ site.title }}.psm1 file to a {{ site.title }} folder into one of the following folders
+Copy the module manuall1
+
+```
+Copy the mediant.psm1/mediant.psd1/license.txt files to a "Mediant" folder into one of the following folders
  * `%userprofile%\Documents\WindowsPowerShell\Modules\WordDoc`
  * `%windir%\System32\WindowsPowerShell\v1.0\Modules\WordDoc`
+```
 
 ## Example Script
 
-Once you have installed the module you can now Create Word Document's from powershell
+Once you have installed the module you can now Manage Audiocodes Mediant devices from powershell
 
 ```powershell
-Import-Module {{ site.title }}
+Import-Module mediant
+
+
+
 
 ```
 
