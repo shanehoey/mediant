@@ -1,6 +1,6 @@
 ﻿#requires -Version 5.0
 <#
-    Copyright (c) 2016 Shane Hoey
+    Copyright (c) 2016-2018 Shane Hoey
 
     Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -103,6 +103,41 @@ class MediantDeviceStatus
 
 Function Get-MediantDevice 
 {
+  <#
+    .SYNOPSIS
+    Describe purpose of "Get-MediantDevice" in 1-2 sentences.
+
+    .DESCRIPTION
+    Add a more complete description of what the function does.
+
+    .PARAMETER Mediant
+    Describe parameter -Mediant.
+
+    .PARAMETER Credential
+    Describe parameter -Credential.
+
+    .PARAMETER Http
+    Describe parameter -Http.
+
+    .EXAMPLE
+    Get-MediantDevice -Mediant Value -Credential Value -Http Value
+    Describe what this call does
+
+    .NOTES
+    Place additional notes here.
+
+    .LINK
+    URLs to related sites
+    The first link is opened by Get-Help -Online Get-MediantDevice
+
+    .INPUTS
+    List of input types that are accepted by this function.
+
+    .OUTPUTS
+    List of output types produced by this function.
+  #>
+
+
   [CmdletBinding(DefaultParameterSetName='Mediant', SupportsShouldProcess=$true, ConfirmImpact='Medium')]
   
   param(
@@ -147,6 +182,48 @@ Function Get-MediantDevice
 #TEST: Test-MediantDevice
 Function Test-MediantDevice 
 {
+  <#
+    .SYNOPSIS
+    Describe purpose of "Test-MediantDevice" in 1-2 sentences.
+
+    .DESCRIPTION
+    Add a more complete description of what the function does.
+
+    .PARAMETER MediantDevice
+    Describe parameter -MediantDevice.
+
+    .PARAMETER Mediant
+    Describe parameter -Mediant.
+
+    .PARAMETER Credential
+    Describe parameter -Credential.
+
+    .PARAMETER Http
+    Describe parameter -Http.
+
+    .EXAMPLE
+    Test-MediantDevice -MediantDevice Value
+    Describe what this call does
+
+    .EXAMPLE
+    Test-MediantDevice -Mediant Value -Credential Value -Http Value
+    Describe what this call does
+
+    .NOTES
+    Place additional notes here.
+
+    .LINK
+    URLs to related sites
+    The first link is opened by Get-Help -Online Test-MediantDevice
+
+    .INPUTS
+    List of input types that are accepted by this function.
+
+    .OUTPUTS
+    List of output types produced by this function.
+  #>
+
+
   [CmdletBinding(DefaultParameterSetName='MediantDevice', SupportsShouldProcess=$true, ConfirmImpact='medium')]
   
   param(
@@ -161,11 +238,11 @@ Function Test-MediantDevice
    
     [Parameter(Mandatory=$false, ParameterSetName='Mediant',Position = 2)]
     [ValidateSet('http', 'https')]
-    [string]$Http = "http" 
+    [string]$Http = 'http' 
   )
   Begin
   { 
-    $api = "/api"
+    $api = '/api'
     $parameters             =  @{ }
     if($PSBoundParameters.MediantDevice)
     {
@@ -177,7 +254,7 @@ Function Test-MediantDevice
       $parameters.uri         =  "$($http)://$($mediant)/api"
       $parameters.Credential  =  $Credential
     }
-    $parameters.Method      =  "Get"
+    $parameters.Method      =  'Get'
   }
   Process
   {
@@ -188,7 +265,7 @@ Function Test-MediantDevice
         $result = Invoke-WebRequest @parameters -ErrorAction Stop 
       }
       Write-Verbose -message "`n$($result.rawcontent)" 
-      if ($result.statuscode -eq "200") 
+      if ($result.statuscode -eq '200') 
       { 
         return $true
       }       
@@ -207,6 +284,68 @@ Function Test-MediantDevice
 #TEST: Restart-MediantDevice
 Function Restart-MediantDevice
 {
+  <#
+    .SYNOPSIS
+    Describe purpose of "Restart-MediantDevice" in 1-2 sentences.
+
+    .DESCRIPTION
+    Add a more complete description of what the function does.
+
+    .PARAMETER MediantDevice
+    Describe parameter -MediantDevice.
+
+    .PARAMETER Mediant
+    Describe parameter -Mediant.
+
+    .PARAMETER Credential
+    Describe parameter -Credential.
+
+    .PARAMETER Http
+    Describe parameter -Http.
+
+    .PARAMETER SaveConfiguration
+    Describe parameter -SaveConfiguration.
+
+    .PARAMETER TimeoutGraceful
+    Describe parameter -TimeoutGraceful.
+
+    .PARAMETER TimeoutSeconds
+    Describe parameter -TimeoutSeconds.
+
+    .PARAMETER TimeoutImmediate
+    Describe parameter -TimeoutImmediate.
+
+    .EXAMPLE
+    Restart-MediantDevice -MediantDevice Value -SaveConfiguration Value -TimeoutGraceful
+    Describe what this call does
+
+    .EXAMPLE
+    Restart-MediantDevice -Mediant Value -Credential Value -Http Value
+    Describe what this call does
+
+    .EXAMPLE
+    Restart-MediantDevice -TimeoutSeconds Value
+    Describe what this call does
+
+    .EXAMPLE
+    Restart-MediantDevice -TimeoutImmediate
+    Describe what this call does
+
+    .NOTES
+    Place additional notes here.
+
+    .LINK
+    URLs to related sites
+    The first link is opened by Get-Help -Online Restart-MediantDevice
+
+    .INPUTS
+    List of input types that are accepted by this function.
+
+    .OUTPUTS
+    List of output types produced by this function.
+  #>
+
+
   [CmdletBinding(DefaultParameterSetName='MediantDeviceTimeoutGraceful', SupportsShouldProcess=$true, ConfirmImpact='medium')]
   Param
   (   
@@ -266,9 +405,9 @@ Function Restart-MediantDevice
     
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
-    $parameters.action     =  "/api/v1/actions/reset"
+    $parameters.action     =  '/api/v1/actions/reset'
     $parameters.credential =  $Credential
-    $parameters.method     =  "Post"
+    $parameters.method     =  'Post'
     $parameters.http       =  $http    
     $parameters.body       =  @"
 {
@@ -298,7 +437,49 @@ Function Restart-MediantDevice
 
 #TEST : Save-MediantDevice
 Function Save-MediantDevice
-{ 
+{
+  <#
+    .SYNOPSIS
+    Describe purpose of "Save-MediantDevice" in 1-2 sentences.
+
+    .DESCRIPTION
+    Add a more complete description of what the function does.
+
+    .PARAMETER MediantDevice
+    Describe parameter -MediantDevice.
+
+    .PARAMETER Mediant
+    Describe parameter -Mediant.
+
+    .PARAMETER Credential
+    Describe parameter -Credential.
+
+    .PARAMETER Http
+    Describe parameter -Http.
+
+    .EXAMPLE
+    Save-MediantDevice -MediantDevice Value
+    Describe what this call does
+
+    .EXAMPLE
+    Save-MediantDevice -Mediant Value -Credential Value -Http Value
+    Describe what this call does
+
+    .NOTES
+    Place additional notes here.
+
+    .LINK
+    URLs to related sites
+    The first link is opened by Get-Help -Online Save-MediantDevice
+
+    .INPUTS
+    List of input types that are accepted by this function.
+
+    .OUTPUTS
+    List of output types produced by this function.
+  #>
+
+ 
   [CmdletBinding(DefaultParameterSetName='MediantDevice', SupportsShouldProcess=$true, ConfirmImpact='medium')]
   Param
   (
@@ -327,9 +508,9 @@ Function Save-MediantDevice
 
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
-    $parameters.action     =  "/api/v1/actions/saveConfiguration"
+    $parameters.action     =  '/api/v1/actions/saveConfiguration'
     $parameters.credential =  $Credential
-    $parameters.method     =  "Post"
+    $parameters.method     =  'Post'
     $parameters.http       =  $http    
     
   } 
@@ -357,7 +538,49 @@ Function Save-MediantDevice
 
 #TEST: Get-MediantDeviceStatus
 Function Get-MediantDeviceStatus
-{ 
+{
+  <#
+    .SYNOPSIS
+    Describe purpose of "Get-MediantDeviceStatus" in 1-2 sentences.
+
+    .DESCRIPTION
+    Add a more complete description of what the function does.
+
+    .PARAMETER MediantDevice
+    Describe parameter -MediantDevice.
+
+    .PARAMETER Mediant
+    Describe parameter -Mediant.
+
+    .PARAMETER Credential
+    Describe parameter -Credential.
+
+    .PARAMETER Http
+    Describe parameter -Http.
+
+    .EXAMPLE
+    Get-MediantDeviceStatus -MediantDevice Value
+    Describe what this call does
+
+    .EXAMPLE
+    Get-MediantDeviceStatus -Mediant Value -Credential Value -Http Value
+    Describe what this call does
+
+    .NOTES
+    Place additional notes here.
+
+    .LINK
+    URLs to related sites
+    The first link is opened by Get-Help -Online Get-MediantDeviceStatus
+
+    .INPUTS
+    List of input types that are accepted by this function.
+
+    .OUTPUTS
+    List of output types produced by this function.
+  #>
+
+ 
   [CmdletBinding(DefaultParameterSetName='MediantDevice', SupportsShouldProcess=$true, ConfirmImpact='medium')]
   Param
   (
@@ -386,9 +609,9 @@ Function Get-MediantDeviceStatus
 
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
-    $parameters.action     =  "/api/v1/status"
+    $parameters.action     =  '/api/v1/status'
     $parameters.credential =  $Credential
-    $parameters.method     =  "Post"
+    $parameters.method     =  'Post'
     $parameters.http       =  $http    
     
   } 
@@ -431,6 +654,57 @@ Function Get-MediantDeviceStatus
 #TEST: Invoke-MediantWebRequest
 Function Invoke-MediantWebRequest 
 {
+  <#
+    .SYNOPSIS
+    Describe purpose of "Invoke-MediantWebRequest" in 1-2 sentences.
+
+    .DESCRIPTION
+    Add a more complete description of what the function does.
+
+    .PARAMETER MediantDevice
+    Describe parameter -MediantDevice.
+
+    .PARAMETER Mediant
+    Describe parameter -Mediant.
+
+    .PARAMETER Credential
+    Describe parameter -Credential.
+
+    .PARAMETER http
+    Describe parameter -http.
+
+    .PARAMETER Method
+    Describe parameter -Method.
+
+    .PARAMETER Action
+    Describe parameter -Action.
+
+    .PARAMETER Body
+    Describe parameter -Body.
+
+    .EXAMPLE
+    Invoke-MediantWebRequest -MediantDevice Value
+    Describe what this call does
+
+    .EXAMPLE
+    Invoke-MediantWebRequest -Mediant Value -Credential Value -http Value -Method Value -Action Value -Body Value
+    Describe what this call does
+
+    .NOTES
+    Place additional notes here.
+
+    .LINK
+    URLs to related sites
+    The first link is opened by Get-Help -Online Invoke-MediantWebRequest
+
+    .INPUTS
+    List of input types that are accepted by this function.
+
+    .OUTPUTS
+    List of output types produced by this function.
+  #>
+
+
   [CmdletBinding(DefaultParameterSetName='MediantDevice', SupportsShouldProcess=$true, ConfirmImpact='medium')]
   
   param(
@@ -490,7 +764,7 @@ Function Invoke-MediantWebRequest
       if ($pscmdlet.ShouldProcess("$($parameters.Mediant)", $($parameters.uri)))
       {
         $response = Invoke-WebRequest @parameters -ErrorAction Stop 
-        Write-Verbose  "`n`n$($response.rawcontent)"
+        Write-Verbose  -Message "`n`n$($response.rawcontent)"
         return ( [MediantWebRequest]::new($Mediant,$response.StatusCode,$response.StatusDescription,$response.rawcontent,$response.content ) )
       }
     }
@@ -523,12 +797,12 @@ Function get-xMediantDeviceFileAMD
    
     [Parameter(Mandatory=$false, ParameterSetName='Mediant',Position = 2)]
     [ValidateSet('http', 'https')]
-    [string]$Http = "http" 
+    [string]$Http = 'http' 
   )
   
   Begin
   {
-    Write-Warning -Message "Not Implemented Yet" -WarningAction Inquire
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
     
     if($PSBoundParameters.MediantDevice)
     {
@@ -539,9 +813,9 @@ Function get-xMediantDeviceFileAMD
 
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
-    $parameters.action     =  "/api/v1/files/amd"
+    $parameters.action     =  '/api/v1/files/amd'
     $parameters.credential =  $Credential
-    $parameters.method     =  "get"
+    $parameters.method     =  'get'
     $parameters.http       =  $http    
 
   }    
@@ -596,7 +870,7 @@ function set-xMediantDeviceFileAMD
   )
   Begin
   {
-    Write-Warning -Message "Not Implemented Yet" -WarningAction Inquire
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
     if($PSBoundParameters.MediantDevice)
     {
       $Mediant     =  $MediantDevice.Mediant
@@ -607,13 +881,13 @@ function set-xMediantDeviceFileAMD
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
 
-    if($PSBoundParameters.MediantDeviceImmediate) { $parameters.action  =  "/api/v1/files/amd" }
-    if($PSBoundParameters.MediantDeviceHitless)   { $parameters.action  =  "/api/v1/files/amd/hitless" }
-    if($PSBoundParameters.MediantImmediate)       { $parameters.action  =  "/api/v1/files/amd" }
-    if($PSBoundParameters.MediantHitless)         { $parameters.action  =  "/api/v1/files/amd/hitless" }
+    if($PSBoundParameters.MediantDeviceImmediate) { $parameters.action  =  '/api/v1/files/amd' }
+    if($PSBoundParameters.MediantDeviceHitless)   { $parameters.action  =  '/api/v1/files/amd/hitless' }
+    if($PSBoundParameters.MediantImmediate)       { $parameters.action  =  '/api/v1/files/amd' }
+    if($PSBoundParameters.MediantHitless)         { $parameters.action  =  '/api/v1/files/amd/hitless' }
 
     $parameters.credential =  $Credential
-    $parameters.method     =  "get"
+    $parameters.method     =  'get'
     $parameters.http       =  $http    
 
   }    
@@ -656,11 +930,11 @@ Function get-xMediantDeviceFileCasTable
    
     [Parameter(Mandatory=$false, ParameterSetName='Mediant',Position = 2)]
     [ValidateSet('http', 'https')]
-    [string]$Http = "http" 
+    [string]$Http = 'http' 
   )
   Begin
   {
-    Write-Warning -Message "Not Implemented Yet" -WarningAction Inquire
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
     if($PSBoundParameters.MediantDevice)
     {
       $Mediant     =  $MediantDevice.Mediant
@@ -670,9 +944,9 @@ Function get-xMediantDeviceFileCasTable
 
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
-    $parameters.action     =  "/api/v1/files/casTable"
+    $parameters.action     =  '/api/v1/files/casTable'
     $parameters.credential =  $Credential
-    $parameters.method     =  "get"
+    $parameters.method     =  'get'
     $parameters.http       =  $http    
 
   }    
@@ -727,7 +1001,7 @@ Function set-xMediantDeviceFileCasTable
   )
   Begin
   {
-    Write-Warning -Message "Not Implemented Yet" -WarningAction Inquire
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
     if($PSBoundParameters.MediantDevice)
     {
       $Mediant     =  $MediantDevice.Mediant
@@ -738,13 +1012,13 @@ Function set-xMediantDeviceFileCasTable
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
 
-    if($PSBoundParameters.MediantDeviceImmediate) { $parameters.action  =  "/api/v1/files/casTable" }
-    if($PSBoundParameters.MediantDeviceHitless)   { $parameters.action  =  "/api/v1/files/casTable/hitless" }
-    if($PSBoundParameters.MediantImmediate)       { $parameters.action  =  "/api/v1/files/casTable" }
-    if($PSBoundParameters.MediantHitless)         { $parameters.action  =  "/api/v1/files/casTable/hitless" }
+    if($PSBoundParameters.MediantDeviceImmediate) { $parameters.action  =  '/api/v1/files/casTable' }
+    if($PSBoundParameters.MediantDeviceHitless)   { $parameters.action  =  '/api/v1/files/casTable/hitless' }
+    if($PSBoundParameters.MediantImmediate)       { $parameters.action  =  '/api/v1/files/casTable' }
+    if($PSBoundParameters.MediantHitless)         { $parameters.action  =  '/api/v1/files/casTable/hitless' }
     
     $parameters.credential =  $Credential
-    $parameters.method     =  "get"
+    $parameters.method     =  'get'
     $parameters.http       =  $http    
 
   }    
@@ -771,6 +1045,51 @@ Function set-xMediantDeviceFileCasTable
 #TODO: get-MediantDeviceFileCliScript
 Function Get-MediantDeviceFileCliScript
 {
+  <#
+    .SYNOPSIS
+    Describe purpose of "Get-MediantDeviceFileCliScript" in 1-2 sentences.
+
+    .DESCRIPTION
+    Add a more complete description of what the function does.
+
+    .PARAMETER MediantDevice
+    Describe parameter -MediantDevice.
+
+    .PARAMETER Mediant
+    Describe parameter -Mediant.
+
+    .PARAMETER Credential
+    Describe parameter -Credential.
+
+    .PARAMETER Http
+    Describe parameter -Http.
+
+    .PARAMETER filepath
+    Describe parameter -filepath.
+
+    .EXAMPLE
+    Get-MediantDeviceFileCliScript -MediantDevice Value -filepath Value
+    Describe what this call does
+
+    .EXAMPLE
+    Get-MediantDeviceFileCliScript -Mediant Value -Credential Value -Http Value
+    Describe what this call does
+
+    .NOTES
+    Place additional notes here.
+
+    .LINK
+    URLs to related sites
+    The first link is opened by Get-Help -Online Get-MediantDeviceFileCliScript
+
+    .INPUTS
+    List of input types that are accepted by this function.
+
+    .OUTPUTS
+    List of output types produced by this function.
+  #>
+
+
   [CmdletBinding(DefaultParameterSetName='MediantDevice', SupportsShouldProcess=$true, ConfirmImpact='medium')]
   
   param(
@@ -785,7 +1104,7 @@ Function Get-MediantDeviceFileCliScript
    
     [Parameter(Mandatory=$false, ParameterSetName='Mediant',Position = 2)]
     [ValidateSet('http', 'https')]
-    [string]$Http = "http",
+    [string]$Http = 'http',
 
     #TODO: Add Validate script to validate at lease folder location    
     [Parameter(Mandatory=$false, ParameterSetName='MediantDevice',Position = 1)]
@@ -795,7 +1114,7 @@ Function Get-MediantDeviceFileCliScript
   )
   Begin
   {
-    Write-Warning -Message "Not Implemented Yet" -WarningAction Inquire
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
     if($PSBoundParameters.MediantDevice)
     {
       $Mediant     =  $MediantDevice.Mediant
@@ -805,9 +1124,9 @@ Function Get-MediantDeviceFileCliScript
 
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
-    $parameters.action     =  "/api/v1/files/cliScript"
+    $parameters.action     =  '/api/v1/files/cliScript'
     $parameters.credential =  $Credential
-    $parameters.method     =  "get"
+    $parameters.method     =  'get'
     $parameters.http       =  $http    
 
   }    
@@ -822,7 +1141,7 @@ Function Get-MediantDeviceFileCliScript
         
         $result = [System.Text.Encoding]::UTF8.GetString($result.Content)
         
-        $result = ($result -replace "GET /topAreaStaus.json").trim()
+        $result = ($result -replace 'GET /topAreaStaus.json').trim()
             #$config = $config -replace '\[ ','['
             #$config = $config -replace ' \]',']'
             #$config = $config.trim()
@@ -886,7 +1205,7 @@ Function Set-xMediantDeviceFileCliScript
 
   Begin
   {
-    Write-Warning -Message "Not Implemented Yet" -WarningAction Inquire
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
     if($PSBoundParameters.MediantDevice)
     {
       $Mediant     =  $MediantDevice.Mediant
@@ -896,15 +1215,15 @@ Function Set-xMediantDeviceFileCliScript
 
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
-    $parameters.action     =  "/api/v1/files/cliScript"
+    $parameters.action     =  '/api/v1/files/cliScript'
     
-    if($PSBoundParameters.MediantDeviceFull)         { $parameters.action  =  "/api/v1/files/cliScript" }
-    if($PSBoundParameters.MediantDeviceIncremental)  { $parameters.action  =  "/api/v1/files/cliScript/incremental" }
-    if($PSBoundParameters.MediantFull)               { $parameters.action  =  "/api/v1/files/cliScript" }
-    if($PSBoundParameters.MediantIncremental)        { $parameters.action  =  "/api/v1/files/cliScript/incremental" }
+    if($PSBoundParameters.MediantDeviceFull)         { $parameters.action  =  '/api/v1/files/cliScript' }
+    if($PSBoundParameters.MediantDeviceIncremental)  { $parameters.action  =  '/api/v1/files/cliScript/incremental' }
+    if($PSBoundParameters.MediantFull)               { $parameters.action  =  '/api/v1/files/cliScript' }
+    if($PSBoundParameters.MediantIncremental)        { $parameters.action  =  '/api/v1/files/cliScript/incremental' }
     
     $parameters.credential =  $Credential
-    $parameters.method     =  "get"
+    $parameters.method     =  'get'
     $parameters.http       =  $http    
 
   }    
@@ -947,11 +1266,11 @@ Function get-xMediantDeviceFileCoderTable
    
     [Parameter(Mandatory=$false, ParameterSetName='Mediant',Position = 2)]
     [ValidateSet('http', 'https')]
-    [string]$Http = "http" 
+    [string]$Http = 'http' 
   )
   Begin
   {
-    Write-Warning -Message "Not Implemented Yet" -WarningAction Inquire
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
     if($PSBoundParameters.MediantDevice)
     {
       $Mediant     =  $MediantDevice.Mediant
@@ -961,9 +1280,9 @@ Function get-xMediantDeviceFileCoderTable
 
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
-    $parameters.action     =  "/api/v1/files/coderTable"
+    $parameters.action     =  '/api/v1/files/coderTable'
     $parameters.credential =  $Credential
-    $parameters.method     =  "get"
+    $parameters.method     =  'get'
     $parameters.http       =  $http    
 
   }    
@@ -1018,7 +1337,7 @@ Function set-xMediantDeviceFileCoderTable
   )
   Begin
   {
-    Write-Warning -Message "Not Implemented Yet" -WarningAction Inquire
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
     if($PSBoundParameters.MediantDevice)
     {
       $Mediant     =  $MediantDevice.Mediant
@@ -1029,13 +1348,13 @@ Function set-xMediantDeviceFileCoderTable
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
    
-    if($PSBoundParameters.MediantDeviceImmediate) { $parameters.action  =  "/api/v1/files/coderTable" }
-    if($PSBoundParameters.MediantDeviceHitless)   { $parameters.action  =  "/api/v1/files/coderTable/hitless" }
-    if($PSBoundParameters.MediantImmediate)       { $parameters.action  =  "/api/v1/files/coderTable" }
-    if($PSBoundParameters.MediantHitless)         { $parameters.action  =  "/api/v1/files/coderTable/hitless" }
+    if($PSBoundParameters.MediantDeviceImmediate) { $parameters.action  =  '/api/v1/files/coderTable' }
+    if($PSBoundParameters.MediantDeviceHitless)   { $parameters.action  =  '/api/v1/files/coderTable/hitless' }
+    if($PSBoundParameters.MediantImmediate)       { $parameters.action  =  '/api/v1/files/coderTable' }
+    if($PSBoundParameters.MediantHitless)         { $parameters.action  =  '/api/v1/files/coderTable/hitless' }
     
     $parameters.credential =  $Credential
-    $parameters.method     =  "get"
+    $parameters.method     =  'get'
     $parameters.http       =  $http    
 
   }    
@@ -1077,11 +1396,11 @@ Function get-xMediantDeviceFileCPT
    
     [Parameter(Mandatory=$false, ParameterSetName='Mediant',Position = 2)]
     [ValidateSet('http', 'https')]
-    [string]$Http = "http" 
+    [string]$Http = 'http' 
   )
   Begin
   {
-    Write-Warning -Message "Not Implemented Yet" -WarningAction Inquire
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
     if($PSBoundParameters.MediantDevice)
     {
       $Mediant     =  $MediantDevice.Mediant
@@ -1091,9 +1410,9 @@ Function get-xMediantDeviceFileCPT
 
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
-    $parameters.action     =  "/api/v1/files/cpt"
+    $parameters.action     =  '/api/v1/files/cpt'
     $parameters.credential =  $Credential
-    $parameters.method     =  "get"
+    $parameters.method     =  'get'
     $parameters.http       =  $http    
 
   }    
@@ -1148,7 +1467,7 @@ Function set-xMediantDeviceFileCPT
   )
   Begin
   {
-    Write-Warning -Message "Not Implemented Yet" -WarningAction Inquire
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
 
     if($PSBoundParameters.MediantDevice)
     {
@@ -1160,13 +1479,13 @@ Function set-xMediantDeviceFileCPT
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
    
-    if($PSBoundParameters.MediantDeviceImmediate) { $parameters.action  =  "/api/v1/files/cpt" }
-    if($PSBoundParameters.MediantDeviceHitless)   { $parameters.action  =  "/api/v1/files/cpt/hitless" }
-    if($PSBoundParameters.MediantImmediate)       { $parameters.action  =  "/api/v1/files/cpt" }
-    if($PSBoundParameters.MediantHitless)         { $parameters.action  =  "/api/v1/files/cpt/hitless" }
+    if($PSBoundParameters.MediantDeviceImmediate) { $parameters.action  =  '/api/v1/files/cpt' }
+    if($PSBoundParameters.MediantDeviceHitless)   { $parameters.action  =  '/api/v1/files/cpt/hitless' }
+    if($PSBoundParameters.MediantImmediate)       { $parameters.action  =  '/api/v1/files/cpt' }
+    if($PSBoundParameters.MediantHitless)         { $parameters.action  =  '/api/v1/files/cpt/hitless' }
 
     $parameters.credential =  $Credential
-    $parameters.method     =  "get"
+    $parameters.method     =  'get'
     $parameters.http       =  $http    
 
   }    
@@ -1207,11 +1526,11 @@ Function get-xMediantDeviceFileDialPlan
    
     [Parameter(Mandatory=$false, ParameterSetName='Mediant',Position = 2)]
     [ValidateSet('http', 'https')]
-    [string]$Http = "http" 
+    [string]$Http = 'http' 
   )
   Begin
   {
-    Write-Warning -Message "Not Implemented Yet" -WarningAction Inquire
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
 
     if($PSBoundParameters.MediantDevice)
     {
@@ -1222,9 +1541,9 @@ Function get-xMediantDeviceFileDialPlan
 
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
-    $parameters.action     =  "/api/v1/files/dialplan"
+    $parameters.action     =  '/api/v1/files/dialplan'
     $parameters.credential =  $Credential
-    $parameters.method     =  "get"
+    $parameters.method     =  'get'
     $parameters.http       =  $http    
 
   }    
@@ -1279,7 +1598,7 @@ Function set-xMediantDeviceFileDialPlan
   )
   Begin
   {
-    Write-Warning -Message "Not Implemented Yet" -WarningAction Inquire
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
 
     if($PSBoundParameters.MediantDevice)
     {
@@ -1291,13 +1610,13 @@ Function set-xMediantDeviceFileDialPlan
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
  
-    if($PSBoundParameters.MediantDeviceImmediate) { $parameters.action  =  "/api/v1/files/dialplan" }
-    if($PSBoundParameters.MediantDeviceHitless)   { $parameters.action  =  "/api/v1/files/dialplan/hitless" }
-    if($PSBoundParameters.MediantImmediate)       { $parameters.action  =  "/api/v1/files/dialplan" }
-    if($PSBoundParameters.MediantHitless)         { $parameters.action  =  "/api/v1/files/dialplan/hitless" }
+    if($PSBoundParameters.MediantDeviceImmediate) { $parameters.action  =  '/api/v1/files/dialplan' }
+    if($PSBoundParameters.MediantDeviceHitless)   { $parameters.action  =  '/api/v1/files/dialplan/hitless' }
+    if($PSBoundParameters.MediantImmediate)       { $parameters.action  =  '/api/v1/files/dialplan' }
+    if($PSBoundParameters.MediantHitless)         { $parameters.action  =  '/api/v1/files/dialplan/hitless' }
 
     $parameters.credential =  $Credential
-    $parameters.method     =  "get"
+    $parameters.method     =  'get'
     $parameters.http       =  $http    
 
   }    
@@ -1324,6 +1643,51 @@ Function set-xMediantDeviceFileDialPlan
 #TODO: get-xMediantDeviceFileIni
 Function Get-MediantDeviceFileIni
 {
+  <#
+    .SYNOPSIS
+    Describe purpose of "Get-MediantDeviceFileIni" in 1-2 sentences.
+
+    .DESCRIPTION
+    Add a more complete description of what the function does.
+
+    .PARAMETER MediantDevice
+    Describe parameter -MediantDevice.
+
+    .PARAMETER Mediant
+    Describe parameter -Mediant.
+
+    .PARAMETER Credential
+    Describe parameter -Credential.
+
+    .PARAMETER Http
+    Describe parameter -Http.
+
+    .PARAMETER filepath
+    Describe parameter -filepath.
+
+    .EXAMPLE
+    Get-MediantDeviceFileIni -MediantDevice Value -filepath Value
+    Describe what this call does
+
+    .EXAMPLE
+    Get-MediantDeviceFileIni -Mediant Value -Credential Value -Http Value
+    Describe what this call does
+
+    .NOTES
+    Place additional notes here.
+
+    .LINK
+    URLs to related sites
+    The first link is opened by Get-Help -Online Get-MediantDeviceFileIni
+
+    .INPUTS
+    List of input types that are accepted by this function.
+
+    .OUTPUTS
+    List of output types produced by this function.
+  #>
+
+
   [CmdletBinding(DefaultParameterSetName='MediantDevice', SupportsShouldProcess=$true, ConfirmImpact='medium')]
   
   param(
@@ -1338,7 +1702,7 @@ Function Get-MediantDeviceFileIni
    
     [Parameter(Mandatory=$false, ParameterSetName='Mediant',Position = 2)]
     [ValidateSet('http', 'https')]
-    [string]$Http = "http",
+    [string]$Http = 'http',
 
     #TODO: Add Validate script to validate at lease folder location    
     [Parameter(Mandatory=$false, ParameterSetName='MediantDevice',Position = 1)]
@@ -1358,9 +1722,9 @@ Function Get-MediantDeviceFileIni
 
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
-    $parameters.action     =  "/api/v1/files/ini"
+    $parameters.action     =  '/api/v1/files/ini'
     $parameters.credential =  $Credential
-    $parameters.method     =  "get"
+    $parameters.method     =  'get'
     $parameters.http       =  $http    
 
   }    
@@ -1373,7 +1737,7 @@ Function Get-MediantDeviceFileIni
       {
         $result = Invoke-MediantWebRequest @parameters
         $result = [System.Text.Encoding]::UTF8.GetString($result.Content)
-        $result = ($result -replace "GET /topAreaStaus.json").trim()
+        $result = ($result -replace 'GET /topAreaStaus.json').trim()
         $result = $result -replace '\[ ','['
         $result = $result -replace ' \]',']'
         $result = $result.trim()
@@ -1440,7 +1804,7 @@ Function set-xMediantDeviceFileIni
   )
   Begin
   {
-    Write-Warning -Message "Not Implemented Yet" -WarningAction Inquire
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
 
     if($PSBoundParameters.MediantDevice)
     {
@@ -1452,13 +1816,13 @@ Function set-xMediantDeviceFileIni
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
     
-    if($PSBoundParameters.MediantDeviceFull)         { $parameters.action  =  "/api/v1/files/ini" }
-    if($PSBoundParameters.MediantDeviceIncremental)  { $parameters.action  =  "/api/v1/files/ini/incremental" }
-    if($PSBoundParameters.MediantFull)               { $parameters.action  =  "/api/v1/files/ini" }
-    if($PSBoundParameters.MediantIncremental)        { $parameters.action  =  "/api/v1/files/ini/incremental" }
+    if($PSBoundParameters.MediantDeviceFull)         { $parameters.action  =  '/api/v1/files/ini' }
+    if($PSBoundParameters.MediantDeviceIncremental)  { $parameters.action  =  '/api/v1/files/ini/incremental' }
+    if($PSBoundParameters.MediantFull)               { $parameters.action  =  '/api/v1/files/ini' }
+    if($PSBoundParameters.MediantIncremental)        { $parameters.action  =  '/api/v1/files/ini/incremental' }
 
     $parameters.credential =  $Credential
-    $parameters.method     =  "get"
+    $parameters.method     =  'get'
     $parameters.http       =  $http    
 
   }    
@@ -1499,11 +1863,11 @@ Function get-xMediantDeviceFileprt
    
     [Parameter(Mandatory=$false, ParameterSetName='Mediant',Position = 2)]
     [ValidateSet('http', 'https')]
-    [string]$Http = "http" 
+    [string]$Http = 'http' 
   )
   Begin
   {
-    Write-Warning -Message "Not Implemented Yet" -WarningAction Inquire
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
 
     if($PSBoundParameters.MediantDevice)
     {
@@ -1514,9 +1878,9 @@ Function get-xMediantDeviceFileprt
 
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
-    $parameters.action     =  "/api/v1/files/prt"
+    $parameters.action     =  '/api/v1/files/prt'
     $parameters.credential =  $Credential
-    $parameters.method     =  "get"
+    $parameters.method     =  'get'
     $parameters.http       =  $http    
 
   }    
@@ -1571,7 +1935,7 @@ Function set-xMediantDeviceFileprt
   )
   Begin
   {
-    Write-Warning -Message "Not Implemented Yet" -WarningAction Inquire
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
 
     if($PSBoundParameters.MediantDevice)
     {
@@ -1583,13 +1947,13 @@ Function set-xMediantDeviceFileprt
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
 
-    if($PSBoundParameters.MediantDeviceImmediate) { $parameters.action  =  "/api/v1/files/prt" }
-    if($PSBoundParameters.MediantDeviceHitless)   { $parameters.action  =  "/api/v1/files/prt/hitless" }
-    if($PSBoundParameters.MediantImmediate)       { $parameters.action  =  "/api/v1/files/prt" }
-    if($PSBoundParameters.MediantHitless)         { $parameters.action  =  "/api/v1/files/prt/hitless" }
+    if($PSBoundParameters.MediantDeviceImmediate) { $parameters.action  =  '/api/v1/files/prt' }
+    if($PSBoundParameters.MediantDeviceHitless)   { $parameters.action  =  '/api/v1/files/prt/hitless' }
+    if($PSBoundParameters.MediantImmediate)       { $parameters.action  =  '/api/v1/files/prt' }
+    if($PSBoundParameters.MediantHitless)         { $parameters.action  =  '/api/v1/files/prt/hitless' }
 
     $parameters.credential =  $Credential
-    $parameters.method     =  "get"
+    $parameters.method     =  'get'
     $parameters.http       =  $http    
 
   }    
@@ -1630,11 +1994,11 @@ Function get-xMediantDeviceSoftware
    
     [Parameter(Mandatory=$false, ParameterSetName='Mediant',Position = 2)]
     [ValidateSet('http', 'https')]
-    [string]$Http = "http" 
+    [string]$Http = 'http' 
   )
   Begin
   {
-    Write-Warning -Message "Not Implemented Yet" -WarningAction Inquire
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
 
     if($PSBoundParameters.MediantDevice)
     {
@@ -1645,9 +2009,9 @@ Function get-xMediantDeviceSoftware
 
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
-    $parameters.action     =  "/api/v1/files/software"
+    $parameters.action     =  '/api/v1/files/software'
     $parameters.credential =  $Credential
-    $parameters.method     =  "get"
+    $parameters.method     =  'get'
     $parameters.http       =  $http    
 
   }    
@@ -1703,7 +2067,7 @@ Function set-xMediantDeviceSoftware
  
   Begin
   {
-    Write-Warning -Message "Not Implemented Yet" -WarningAction Inquire
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
 
     if($PSBoundParameters.MediantDevice)
     {
@@ -1715,14 +2079,14 @@ Function set-xMediantDeviceSoftware
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
  
-    if($PSBoundParameters.MediantDeviceImmediate)   { $parameters.action  =  "/api/v1/files/software" }
-    if($PSBoundParameters.MediantDeviceHitless)     { $parameters.action  =  "/api/v1/files/software/hitless" }
-    if($PSBoundParameters.MediantImmediate)         { $parameters.action  =  "/api/v1/files/software" }
-    if($PSBoundParameters.MediantHitless)           { $parameters.action  =  "/api/v1/files/software/hitless" }
+    if($PSBoundParameters.MediantDeviceImmediate)   { $parameters.action  =  '/api/v1/files/software' }
+    if($PSBoundParameters.MediantDeviceHitless)     { $parameters.action  =  '/api/v1/files/software/hitless' }
+    if($PSBoundParameters.MediantImmediate)         { $parameters.action  =  '/api/v1/files/software' }
+    if($PSBoundParameters.MediantHitless)           { $parameters.action  =  '/api/v1/files/software/hitless' }
 
 
     $parameters.credential =  $Credential
-    $parameters.method     =  "get"
+    $parameters.method     =  'get'
     $parameters.http       =  $http    
 
   }    
@@ -1763,11 +2127,11 @@ Function get-xMediantDeviceFileusersinfo
    
     [Parameter(Mandatory=$false, ParameterSetName='Mediant',Position = 2)]
     [ValidateSet('http', 'https')]
-    [string]$Http = "http" 
+    [string]$Http = 'http' 
   )
   Begin
   {
-    Write-Warning -Message "Not Implemented Yet" -WarningAction Inquire
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
 
     if($PSBoundParameters.MediantDevice)
     {
@@ -1778,9 +2142,9 @@ Function get-xMediantDeviceFileusersinfo
 
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
-    $parameters.action     =  "/api/v1/files/usersinfo"
+    $parameters.action     =  '/api/v1/files/usersinfo'
     $parameters.credential =  $Credential
-    $parameters.method     =  "get"
+    $parameters.method     =  'get'
     $parameters.http       =  $http    
 
   }    
@@ -1835,7 +2199,7 @@ Function set-xMediantDeviceFileusersinfo
   )
   Begin
   {
-    Write-Warning -Message "Not Implemented Yet" -WarningAction Inquire
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
 
     if($PSBoundParameters.MediantDevice)
     {
@@ -1846,15 +2210,15 @@ Function set-xMediantDeviceFileusersinfo
 
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
-    $parameters.action     =  "/api/v1/files/usersinfo"
+    $parameters.action     =  '/api/v1/files/usersinfo'
 
-    if($PSBoundParameters.MediantDeviceImmediate) { $parameters.action  =  "/api/v1/files/usersinfo" }
-    if($PSBoundParameters.MediantDeviceHitless)   { $parameters.action  =  "/api/v1/files/usersinfo/hitless" }
-    if($PSBoundParameters.MediantImmediate)       { $parameters.action  =  "/api/v1/files/usersinfo" }
-    if($PSBoundParameters.MediantHitless)         { $parameters.action  =  "/api/v1/files/usersinfo/hitless" }
+    if($PSBoundParameters.MediantDeviceImmediate) { $parameters.action  =  '/api/v1/files/usersinfo' }
+    if($PSBoundParameters.MediantDeviceHitless)   { $parameters.action  =  '/api/v1/files/usersinfo/hitless' }
+    if($PSBoundParameters.MediantImmediate)       { $parameters.action  =  '/api/v1/files/usersinfo' }
+    if($PSBoundParameters.MediantHitless)         { $parameters.action  =  '/api/v1/files/usersinfo/hitless' }
 
     $parameters.credential =  $Credential
-    $parameters.method     =  "get"
+    $parameters.method     =  'get'
     $parameters.http       =  $http    
 
   }    
@@ -1895,11 +2259,11 @@ Function get-xMediantDeviceFileVoicePrompts
    
     [Parameter(Mandatory=$false, ParameterSetName='Mediant',Position = 2)]
     [ValidateSet('http', 'https')]
-    [string]$Http = "http" 
+    [string]$Http = 'http' 
   )
   Begin
   {
-    Write-Warning -Message "Not Implemented Yet" -WarningAction Inquire
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
 
     if($PSBoundParameters.MediantDevice)
     {
@@ -1910,9 +2274,9 @@ Function get-xMediantDeviceFileVoicePrompts
 
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
-    $parameters.action     =  "/api/v1/files/voicePrompts"
+    $parameters.action     =  '/api/v1/files/voicePrompts'
     $parameters.credential =  $Credential
-    $parameters.method     =  "Get"
+    $parameters.method     =  'Get'
     $parameters.http       =  $http    
 
   }    
@@ -1967,7 +2331,7 @@ Function set-xMediantDeviceFileVoicePrompts
   )
   Begin
   {
-    Write-Warning -Message "Not Implemented Yet" -WarningAction Inquire
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
 
     if($PSBoundParameters.MediantDevice)
     {
@@ -1979,14 +2343,14 @@ Function set-xMediantDeviceFileVoicePrompts
     $parameters            =  @{ }        
     $parameters.mediant    =  $Mediant    
 
-    if($PSBoundParameters.MediantDeviceImmediate) { $parameters.action  =  "/api/v1/files/VoicePrompts" }
-    if($PSBoundParameters.MediantDeviceHitless)   { $parameters.action  =  "/api/v1/files/VoicePrompts/hitless" }
-    if($PSBoundParameters.MediantImmediate)       { $parameters.action  =  "/api/v1/files/VoicePrompts" }
-    if($PSBoundParameters.MediantHitless)         { $parameters.action  =  "/api/v1/files/VoicePrompts/hitless" }
+    if($PSBoundParameters.MediantDeviceImmediate) { $parameters.action  =  '/api/v1/files/VoicePrompts' }
+    if($PSBoundParameters.MediantDeviceHitless)   { $parameters.action  =  '/api/v1/files/VoicePrompts/hitless' }
+    if($PSBoundParameters.MediantImmediate)       { $parameters.action  =  '/api/v1/files/VoicePrompts' }
+    if($PSBoundParameters.MediantHitless)         { $parameters.action  =  '/api/v1/files/VoicePrompts/hitless' }
 
     
     $parameters.credential =  $Credential
-    $parameters.method     =  "Get"
+    $parameters.method     =  'Get'
     $parameters.http       =  $http    
 
   }    
@@ -2025,7 +2389,7 @@ function Get-xMediantAlarm
         
     [Parameter(Mandatory=$false, ParameterSetName='Default')]
     [ValidateSet('http', 'https')]
-    [string]$Http = "http",
+    [string]$Http = 'http',
     
     [Parameter(Mandatory=$true, ParameterSetName='Default')]
     [ValidateSet('active', 'history')]
@@ -2047,7 +2411,7 @@ function Get-xMediantAlarm
   {
     if(!(Test-MediantDevice -Mediant $Mediant -Credential $Credential -Http $http)) 
     {
-      $result = [MediantWebRequest]::new($Mediant,"Unknown","Unable to Connect",$Null )
+      $result = [MediantWebRequest]::new($Mediant,'Unknown','Unable to Connect',$Null )
       break
     } 
     
@@ -2055,10 +2419,10 @@ function Get-xMediantAlarm
     $parameters.mediant     =  $mediant
     $parameters.Credential  =  $Credential
     $parameters.http        =  $Http
-    $parameters.Method      =  "Get"
+    $parameters.Method      =  'Get'
     $parameters.action      =  "/api/v1/alarms/$($alarm)/?limit=$($alarmlimit)"
-    if($PSBoundParameters.ContainsKey("alarmafter")) { $parameters.action = $parameters.action + "&after=$alarmafter"}
-    if($PSBoundParameters.ContainsKey("alarmbefore")) { $parameters.action = $parameters.action + "&before=$alarmbefore"}
+    if($PSBoundParameters.ContainsKey('alarmafter')) { $parameters.action = $parameters.action + "&after=$alarmafter"}
+    if($PSBoundParameters.ContainsKey('alarmbefore')) { $parameters.action = $parameters.action + "&before=$alarmbefore"}
   }
   Process
   {
@@ -2100,7 +2464,7 @@ function Get-xMediantPerformanceMonitoring
     [Parameter(Mandatory=$false, ParameterSetName='Default')]
     [Parameter(Mandatory=$true, ParameterSetName='Specific')]
     [ValidateSet('http', 'https')]
-    [string]$Http = "http",
+    [string]$Http = 'http',
   
     [Parameter(Mandatory=$true, ParameterSetName='Specific')]
     [ValidateSet('Realtime', 'average','averageprev')]
@@ -2111,13 +2475,13 @@ function Get-xMediantPerformanceMonitoring
     $ParameterName = 'PerfomanceMonitor'
             
     # Create the dictionary 
-    $RuntimeParameterDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
+    $RuntimeParameterDictionary = New-Object -TypeName System.Management.Automation.RuntimeDefinedParameterDictionary
 
     # Create the collection of attributes
-    $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
+    $AttributeCollection = New-Object -TypeName System.Collections.ObjectModel.Collection[System.Attribute]
             
     # Create and set the parameters' attributes
-    $ParameterAttribute = New-Object System.Management.Automation.ParameterAttribute
+    $ParameterAttribute = New-Object -TypeName System.Management.Automation.ParameterAttribute
     $ParameterAttribute.ParameterSetName = 'Specific'
     $ParameterAttribute.Mandatory = $true
 
@@ -2125,14 +2489,14 @@ function Get-xMediantPerformanceMonitoring
     $AttributeCollection.Add($ParameterAttribute)
 
     # Generate and set the ValidateSet 
-    $arrSet = ((Invoke-MediantWebRequest -Mediant $Mediant -Credential $Credential -Http $http -method Get -action "/api/v1/performanceMonitoring").rawcontent | convertfrom-json).items
-    $ValidateSetAttribute = New-Object System.Management.Automation.ValidateSetAttribute($arrSet)
+    $arrSet = ((Invoke-MediantWebRequest -Mediant $Mediant -Credential $Credential -Http $http -method Get -action '/api/v1/performanceMonitoring').rawcontent | convertfrom-json).items
+    $ValidateSetAttribute = New-Object -TypeName System.Management.Automation.ValidateSetAttribute -ArgumentList ($arrSet)
 
     # Add the ValidateSet to the attributes collection
     $AttributeCollection.Add($ValidateSetAttribute)
 
     # Create and return the dynamic parameter
-    $RuntimeParameter = New-Object System.Management.Automation.RuntimeDefinedParameter($ParameterName, [string], $AttributeCollection)
+    $RuntimeParameter = New-Object -TypeName System.Management.Automation.RuntimeDefinedParameter -ArgumentList ($ParameterName, [string], $AttributeCollection)
     $RuntimeParameterDictionary.Add($ParameterName, $RuntimeParameter)
     return $RuntimeParameterDictionary
   }
@@ -2144,7 +2508,7 @@ function Get-xMediantPerformanceMonitoring
     pause
     if(!(Test-MediantDevice -Mediant $Mediant -Credential $Credential -Http $http)) 
     {
-      $result = [MediantWebRequest]::new($Mediant,"Unknown","Unable to Connect",$Null )
+      $result = [MediantWebRequest]::new($Mediant,'Unknown','Unable to Connect',$Null )
       break
     } 
     
@@ -2152,8 +2516,8 @@ function Get-xMediantPerformanceMonitoring
     $parameters.mediant     =  $mediant
     $parameters.Credential  =  $Credential
     $parameters.http        =  $Http
-    $parameters.Method      =  "Get"
-    $parameters.action      =  "/api/v1/performanceMonitoring"
+    $parameters.Method      =  'Get'
+    $parameters.action      =  '/api/v1/performanceMonitoring'
     
   }
   Process
@@ -2169,78 +2533,75 @@ function Get-xMediantPerformanceMonitoring
 
 Export-ModuleMember -Function *-MediantDevice*
 
-
-
 # SIG # Begin signature block
-# MIINHwYJKoZIhvcNAQcCoIINEDCCDQwCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
+# MIINCgYJKoZIhvcNAQcCoIIM+zCCDPcCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUnlvg8Rq29fp6XAt4uEJ77wpn
-# 93KgggphMIIFKTCCBBGgAwIBAgIQBtrXAjG3P3o2mevBuCybGjANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUvpM1GPENk26r2tU/WYVlT9S7
+# kUKgggpMMIIFFDCCA/ygAwIBAgIQDq/cAHxKXBt+xmIx8FoOkTANBgkqhkiG9w0B
 # AQsFADByMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYD
 # VQQLExB3d3cuZGlnaWNlcnQuY29tMTEwLwYDVQQDEyhEaWdpQ2VydCBTSEEyIEFz
-# c3VyZWQgSUQgQ29kZSBTaWduaW5nIENBMB4XDTE2MTEyOTAwMDAwMFoXDTE3MDcy
-# NjEyMDAwMFowZjELMAkGA1UEBhMCQVUxEzARBgNVBAgTClF1ZWVuc2xhbmQxGDAW
-# BgNVBAcTD1JvY2hlZGFsZSBTb3V0aDETMBEGA1UEChMKU2hhbmUgSG9leTETMBEG
-# A1UEAxMKU2hhbmUgSG9leTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEB
-# AOsExz13+X9SULNh4fMOlgXkIjamyX4V06nbovEhDExinPBskdqBDaO303z0OJhi
-# DNys4lF6LSFFFbKI8G4xNl2wIGnrmvVRJoXR2soaBPsi2AQbBlonZz79zlt/mG+/
-# Y/fzZpvbHj+1zzXHkHMx7VRQUqw9UWNfruWtSoQQijVma/8M5SE3gBFw+AEwsnNw
-# 9jDT1R/9sqoieFggryMuriojhiFiSywST7f+OmC77le2Lv9oU60TTaJ6qrah1bSi
-# 3IwhHC55sK0hTZtj1IlKAxPi65LE/4ovb9EIGpXKrnNYZxcrCTI0xarcre3/L4sE
-# W93dWk4i0j3N3/laZLywnKsCAwEAAaOCAcUwggHBMB8GA1UdIwQYMBaAFFrEuXsq
-# CqOl6nEDwGD5LfZldQ5YMB0GA1UdDgQWBBR+/7sqnyudbphzUWqZRcvrqLUejTAO
-# BgNVHQ8BAf8EBAMCB4AwEwYDVR0lBAwwCgYIKwYBBQUHAwMwdwYDVR0fBHAwbjA1
-# oDOgMYYvaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL3NoYTItYXNzdXJlZC1jcy1n
-# MS5jcmwwNaAzoDGGL2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNvbS9zaGEyLWFzc3Vy
-# ZWQtY3MtZzEuY3JsMEwGA1UdIARFMEMwNwYJYIZIAYb9bAMBMCowKAYIKwYBBQUH
-# AgEWHGh0dHBzOi8vd3d3LmRpZ2ljZXJ0LmNvbS9DUFMwCAYGZ4EMAQQBMIGEBggr
-# BgEFBQcBAQR4MHYwJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNv
-# bTBOBggrBgEFBQcwAoZCaHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY29tL0RpZ2lD
-# ZXJ0U0hBMkFzc3VyZWRJRENvZGVTaWduaW5nQ0EuY3J0MAwGA1UdEwEB/wQCMAAw
-# DQYJKoZIhvcNAQELBQADggEBANWLmn9cs2FEYtHRn2bJiktq79MnOcKeCBHDR3Ht
-# zV11kdfc9InOGHBNE9s7Ot6mD2pxHkjzLlxTqMrSHnlDcXg782jWHH53oMjryUQo
-# ur6cOXQwVSFVhq9kVXpgRsPyqd73PBdXWgmz3cS17pzmfHgPLbmjP7m9BoucKbB4
-# lrhtfNaim/de5XdBO2QbaQ/9AqNAiJq77XmQ9v39NrJUx9pN2nv89Z7zihnrQoxD
-# AnwqDiatXfJsJVHYjxqkatZFeHpodWTjhU7XIeq/pfOqw1Cw4n0MgXF61p5WPHWo
-# W6WgbMGVbNzXOY9Bncn5zbjNgJh3B69/3m6aa2qigWG68a0wggUwMIIEGKADAgEC
-# AhAECRgbX9W7ZnVTQ7VvlVAIMA0GCSqGSIb3DQEBCwUAMGUxCzAJBgNVBAYTAlVT
-# MRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5j
-# b20xJDAiBgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBDQTAeFw0xMzEw
-# MjIxMjAwMDBaFw0yODEwMjIxMjAwMDBaMHIxCzAJBgNVBAYTAlVTMRUwEwYDVQQK
-# EwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xMTAvBgNV
-# BAMTKERpZ2lDZXJ0IFNIQTIgQXNzdXJlZCBJRCBDb2RlIFNpZ25pbmcgQ0EwggEi
-# MA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQD407Mcfw4Rr2d3B9MLMUkZz9D7
-# RZmxOttE9X/lqJ3bMtdx6nadBS63j/qSQ8Cl+YnUNxnXtqrwnIal2CWsDnkoOn7p
-# 0WfTxvspJ8fTeyOU5JEjlpB3gvmhhCNmElQzUHSxKCa7JGnCwlLyFGeKiUXULaGj
-# 6YgsIJWuHEqHCN8M9eJNYBi+qsSyrnAxZjNxPqxwoqvOf+l8y5Kh5TsxHM/q8grk
-# V7tKtel05iv+bMt+dDk2DZDv5LVOpKnqagqrhPOsZ061xPeM0SAlI+sIZD5SlsHy
-# DxL0xY4PwaLoLFH3c7y9hbFig3NBggfkOItqcyDQD2RzPJ6fpjOp/RnfJZPRAgMB
-# AAGjggHNMIIByTASBgNVHRMBAf8ECDAGAQH/AgEAMA4GA1UdDwEB/wQEAwIBhjAT
-# BgNVHSUEDDAKBggrBgEFBQcDAzB5BggrBgEFBQcBAQRtMGswJAYIKwYBBQUHMAGG
-# GGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBDBggrBgEFBQcwAoY3aHR0cDovL2Nh
-# Y2VydHMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZElEUm9vdENBLmNydDCB
-# gQYDVR0fBHoweDA6oDigNoY0aHR0cDovL2NybDQuZGlnaWNlcnQuY29tL0RpZ2lD
-# ZXJ0QXNzdXJlZElEUm9vdENBLmNybDA6oDigNoY0aHR0cDovL2NybDMuZGlnaWNl
-# cnQuY29tL0RpZ2lDZXJ0QXNzdXJlZElEUm9vdENBLmNybDBPBgNVHSAESDBGMDgG
-# CmCGSAGG/WwAAgQwKjAoBggrBgEFBQcCARYcaHR0cHM6Ly93d3cuZGlnaWNlcnQu
-# Y29tL0NQUzAKBghghkgBhv1sAzAdBgNVHQ4EFgQUWsS5eyoKo6XqcQPAYPkt9mV1
-# DlgwHwYDVR0jBBgwFoAUReuir/SSy4IxLVGLp6chnfNtyA8wDQYJKoZIhvcNAQEL
-# BQADggEBAD7sDVoks/Mi0RXILHwlKXaoHV0cLToaxO8wYdd+C2D9wz0PxK+L/e8q
-# 3yBVN7Dh9tGSdQ9RtG6ljlriXiSBThCk7j9xjmMOE0ut119EefM2FAaK95xGTlz/
-# kLEbBw6RFfu6r7VRwo0kriTGxycqoSkoGjpxKAI8LpGjwCUR4pwUR6F6aGivm6dc
-# IFzZcbEMj7uo+MUSaJ/PQMtARKUT8OZkDCUIQjKyNookAv4vcn4c10lFluhZHen6
-# dGRrsutmQ9qzsIzV6Q3d9gEgzpkxYz0IGhizgZtPxpMQBvwHgfqL2vmCSfdibqFT
-# +hKUGIUukpHqaGxEMrJmoecYpJpkUe8xggIoMIICJAIBATCBhjByMQswCQYDVQQG
-# EwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3d3cuZGlnaWNl
-# cnQuY29tMTEwLwYDVQQDEyhEaWdpQ2VydCBTSEEyIEFzc3VyZWQgSUQgQ29kZSBT
-# aWduaW5nIENBAhAG2tcCMbc/ejaZ68G4LJsaMAkGBSsOAwIaBQCgeDAYBgorBgEE
-# AYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEEAYI3AgEEMBwG
-# CisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBQPf5WN
-# ypqJAeq1LTEoh1aDRNes8jANBgkqhkiG9w0BAQEFAASCAQDgy4avtok8a7MWDgpV
-# zBbA8xN5lJzWzhdEmoqL6dNi09wfJU2FHNBMZkS9R3a/XlwBk2oh8iDSgViVTpUz
-# 0Wus6dLQbjSNkgFU7I/ReIunJkdqll+ggKOxXitXz9yc8YvB70BtPNG0MMaz8RuO
-# Q0yI0/hKQS5AUsFqKTtfqGdG5F+GJ683HbWc1b/8f4LZnHhXmKYWeRDZiEaNxGmo
-# OoLlhr6AQEnndntulIukXDreQ9nT/5ADDVN3cnrwQ0R22aw4HnWcPMrbCAkRDfvs
-# NQ1BvEp5BN6dxcWcHAOcK87dPf7sS35Biit9q+/3yTUv58fu/pWyahFY5YZH/176
-# 4qHV
+# c3VyZWQgSUQgQ29kZSBTaWduaW5nIENBMB4XDTE4MDEwMzAwMDAwMFoXDTE5MDEw
+# ODEyMDAwMFowUTELMAkGA1UEBhMCQVUxGDAWBgNVBAcTD1JvY2hlZGFsZSBTb3V0
+# aDETMBEGA1UEChMKU2hhbmUgSG9leTETMBEGA1UEAxMKU2hhbmUgSG9leTCCASIw
+# DQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANAI9q03Pl+EpWcVZ7PQ3AOJ17k6
+# OoS9SCIbZprs7NhyRIg7mKzxdcHMnjKwUe/7NDlt5mYzXT2yY/0MeUkyspiEs1+t
+# eiHJ6IIs9llWgPGOkV4Ro5fZzlutqeeaomEW/ulH7mVjihVCR6mP/O09YSNo0Dv4
+# AltYmVXqhXTB64NdwupL2G8fmTmVUJsww9abtGxy3mhL/l2W3VBcozZbCZVw363p
+# 9mjeR9WUz5AxZji042xldKB/97cNHd/2YyWuJ8eMlYfRqz1nVgmmpuU+SuApRult
+# hy6wNEngVmJBVhH/a8AH29dEZNL9pzhJGRwGBFi+m/vIr5SFhQVFZYJy79kCAwEA
+# AaOCAcUwggHBMB8GA1UdIwQYMBaAFFrEuXsqCqOl6nEDwGD5LfZldQ5YMB0GA1Ud
+# DgQWBBROEIC6bKfPIk2DtUTZh7HSa5ajqDAOBgNVHQ8BAf8EBAMCB4AwEwYDVR0l
+# BAwwCgYIKwYBBQUHAwMwdwYDVR0fBHAwbjA1oDOgMYYvaHR0cDovL2NybDMuZGln
+# aWNlcnQuY29tL3NoYTItYXNzdXJlZC1jcy1nMS5jcmwwNaAzoDGGL2h0dHA6Ly9j
+# cmw0LmRpZ2ljZXJ0LmNvbS9zaGEyLWFzc3VyZWQtY3MtZzEuY3JsMEwGA1UdIARF
+# MEMwNwYJYIZIAYb9bAMBMCowKAYIKwYBBQUHAgEWHGh0dHBzOi8vd3d3LmRpZ2lj
+# ZXJ0LmNvbS9DUFMwCAYGZ4EMAQQBMIGEBggrBgEFBQcBAQR4MHYwJAYIKwYBBQUH
+# MAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBOBggrBgEFBQcwAoZCaHR0cDov
+# L2NhY2VydHMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0U0hBMkFzc3VyZWRJRENvZGVT
+# aWduaW5nQ0EuY3J0MAwGA1UdEwEB/wQCMAAwDQYJKoZIhvcNAQELBQADggEBAIly
+# KESC2V2sBAl6sIQiHRRgQ9oQdtQamES3fVBNHwmsXl76DdjDURDNi6ptwve3FALo
+# ROZHkrjTU+5r6GaOIopKwE4IXkboVoPBP0wJ4jcVm7kcfKJqllSBGZfpnSUjlaRp
+# EE5k1XdVAGEoz+m0GG+tmb9gGblHUiCAnGWLw9bmRoGbJ20a0IQ8jZsiEq+91Ft3
+# 1vJSBO2RRBgqHTama5GD16OyE3Aps5ypaKYXuq0cnNZCaCasRtDJPolSP4KQ+NVg
+# Z/W/rDiO8LNOTDwGcZ2bYScAT88A5KX42wiKnKldmyXnd4ffrwWk8fPngR5sVhus
+# Arv6TbwR8dRMGwXwQqMwggUwMIIEGKADAgECAhAECRgbX9W7ZnVTQ7VvlVAIMA0G
+# CSqGSIb3DQEBCwUAMGUxCzAJBgNVBAYTAlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJ
+# bmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAiBgNVBAMTG0RpZ2lDZXJ0
+# IEFzc3VyZWQgSUQgUm9vdCBDQTAeFw0xMzEwMjIxMjAwMDBaFw0yODEwMjIxMjAw
+# MDBaMHIxCzAJBgNVBAYTAlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNV
+# BAsTEHd3dy5kaWdpY2VydC5jb20xMTAvBgNVBAMTKERpZ2lDZXJ0IFNIQTIgQXNz
+# dXJlZCBJRCBDb2RlIFNpZ25pbmcgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw
+# ggEKAoIBAQD407Mcfw4Rr2d3B9MLMUkZz9D7RZmxOttE9X/lqJ3bMtdx6nadBS63
+# j/qSQ8Cl+YnUNxnXtqrwnIal2CWsDnkoOn7p0WfTxvspJ8fTeyOU5JEjlpB3gvmh
+# hCNmElQzUHSxKCa7JGnCwlLyFGeKiUXULaGj6YgsIJWuHEqHCN8M9eJNYBi+qsSy
+# rnAxZjNxPqxwoqvOf+l8y5Kh5TsxHM/q8grkV7tKtel05iv+bMt+dDk2DZDv5LVO
+# pKnqagqrhPOsZ061xPeM0SAlI+sIZD5SlsHyDxL0xY4PwaLoLFH3c7y9hbFig3NB
+# ggfkOItqcyDQD2RzPJ6fpjOp/RnfJZPRAgMBAAGjggHNMIIByTASBgNVHRMBAf8E
+# CDAGAQH/AgEAMA4GA1UdDwEB/wQEAwIBhjATBgNVHSUEDDAKBggrBgEFBQcDAzB5
+# BggrBgEFBQcBAQRtMGswJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0
+# LmNvbTBDBggrBgEFBQcwAoY3aHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY29tL0Rp
+# Z2lDZXJ0QXNzdXJlZElEUm9vdENBLmNydDCBgQYDVR0fBHoweDA6oDigNoY0aHR0
+# cDovL2NybDQuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZElEUm9vdENBLmNy
+# bDA6oDigNoY0aHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJl
+# ZElEUm9vdENBLmNybDBPBgNVHSAESDBGMDgGCmCGSAGG/WwAAgQwKjAoBggrBgEF
+# BQcCARYcaHR0cHM6Ly93d3cuZGlnaWNlcnQuY29tL0NQUzAKBghghkgBhv1sAzAd
+# BgNVHQ4EFgQUWsS5eyoKo6XqcQPAYPkt9mV1DlgwHwYDVR0jBBgwFoAUReuir/SS
+# y4IxLVGLp6chnfNtyA8wDQYJKoZIhvcNAQELBQADggEBAD7sDVoks/Mi0RXILHwl
+# KXaoHV0cLToaxO8wYdd+C2D9wz0PxK+L/e8q3yBVN7Dh9tGSdQ9RtG6ljlriXiSB
+# ThCk7j9xjmMOE0ut119EefM2FAaK95xGTlz/kLEbBw6RFfu6r7VRwo0kriTGxycq
+# oSkoGjpxKAI8LpGjwCUR4pwUR6F6aGivm6dcIFzZcbEMj7uo+MUSaJ/PQMtARKUT
+# 8OZkDCUIQjKyNookAv4vcn4c10lFluhZHen6dGRrsutmQ9qzsIzV6Q3d9gEgzpkx
+# Yz0IGhizgZtPxpMQBvwHgfqL2vmCSfdibqFT+hKUGIUukpHqaGxEMrJmoecYpJpk
+# Ue8xggIoMIICJAIBATCBhjByMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNl
+# cnQgSW5jMRkwFwYDVQQLExB3d3cuZGlnaWNlcnQuY29tMTEwLwYDVQQDEyhEaWdp
+# Q2VydCBTSEEyIEFzc3VyZWQgSUQgQ29kZSBTaWduaW5nIENBAhAOr9wAfEpcG37G
+# YjHwWg6RMAkGBSsOAwIaBQCgeDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkG
+# CSqGSIb3DQEJAzEMBgorBgEEAYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEE
+# AYI3AgEVMCMGCSqGSIb3DQEJBDEWBBT7yidjMhmaBwuaOU2vdPpSUqcd/DANBgkq
+# hkiG9w0BAQEFAASCAQAEH/Wvw95/nkqOFxjSxlCUPxMyv2zbOOCoLx5hAY4sNpvq
+# DNLVP6xG3e0jzpEwOz6llqKjAvTs1wJblzLAcVLKGgtBn7vIM0Sa4QSidFjmN8fy
+# w+TIkOPWKJ/fqlmVBjXoATnzK5YnZ0ArdiqB80klEccAXRH63X2Wv/4+RnKT7dm/
+# p5inA3p/ctN8uaAvhMZIj7PgazRnbIqOQiktNbhwHSBEEzkZkgHQuCuCvCN0MJWL
+# PBQv7TCSwlMQ34iVczpXEIQlQLSwiIlyLQTS0mhw2FbGvSgMnzMwex5qv6slplcd
+# l/tQWq3Ny+opQNNSwL10jpouAG+nyRj/y0O2vbxP
 # SIG # End signature block
