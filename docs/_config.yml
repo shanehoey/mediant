@@ -82,7 +82,7 @@ analytics:
 # Site Author
 author:
   name             : "Shane Hoey"
-  avatar           : "/assets/images/shane-hoey.jpg"
+  avatar           : "/assets/images/site/shane-hoey.jpg"
   bio              : "Reinventing todays workspace with Modern Collaboration and Skype for Business"
   location         : "Brisbane, Australia"
   uri              : "https://shanehoey.com"
@@ -164,7 +164,7 @@ defaults:
       sitemap: true
     header:
       overlay_color: "#5e616c"
-      overlay_image: /assets/images/unsplash.jpg
+      overlay_image: /assets/images/site/mediant-1000-left-image.jpg
       overlay_filter: rgba(100, 100, 100, 0.5)
       teaser: /assets/images/teaser.jpg 
   # _docs
@@ -183,7 +183,7 @@ defaults:
         nav: "docs"
       header:
         overlay_color: "#5e616c"
-        overlay_image: /assets/images/unsplash-295008.jpg
+        overlay_image: /assets/images/site/mediant-1000-left-image.jpg
         overlay_filter: rgba(100, 100, 100, 0.5)
         teaser: /assets/images/teaser.jpg
   # _pages
@@ -201,7 +201,7 @@ defaults:
       header:
         teaser: /assets/images/teaser.jpg
         overlay_color: "#5e616c"
-        overlay_image: /assets/images/unsplash-295008.jpg
+        overlay_image: /assets/images/site/mediant-1000-left-image.jpg
         overlay_filter: rgba(100, 100, 100, 0.5)
   # _projects
   - scope:
@@ -218,7 +218,7 @@ defaults:
       header:
         teaser: /assets/images/teaser.jpg
         overlay_color: "#5e616c"
-        overlay_image: /assets/images/unsplash-295008.jpg
+        overlay_image: /assets/images/site/mediant-1000-left-image.jpg
         overlay_filter: rgba(100, 100, 100, 0.5)
   # _scripts
   - scope:
@@ -235,7 +235,7 @@ defaults:
       header:
         teaser: /assets/images/teaser.jpg
         overlay_color: "#5e616c"
-        overlay_image: /assets/images/unsplash-295008.jpg
+        overlay_image: /assets/images/site/mediant-1000-left-image.jpg
         overlay_filter: rgba(100, 100, 100, 0.5)
 
 # Sass/SCSS
