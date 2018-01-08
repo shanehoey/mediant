@@ -1,0 +1,31 @@
+main:
+  - title: "<i class='fa fa-home'></i>"
+    url: /
+  - title: "About"
+    url: /about
+  - title: "Getting Started"
+    url: /getting-started
+  - title: "Documentation"
+    url: /docs
+  - title: "Scripts"
+    url: /scripts
+  - title: "Projects"
+    url: /projects
+
+docs:
+  - title: Module Help
+    children:
+      - title: "get-example"
+        url: /docs/get-example
+  - title: About WordDoc
+    children:
+      - title: "Contributing"
+        url: /contributing/
+      - title: "History"
+        url: /history/
+      - title: "License"
+        url: /license/
+      - title: "Privacy"
+        url: /privacy/
+      - title: "Credit & Thanks"
+        url: /credits/

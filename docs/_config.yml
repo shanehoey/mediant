@@ -1,0 +1,315 @@
+remote_theme             : "mmistakes/minimal-mistakes"
+
+minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+
+# Site Settings
+locale                   : "en"
+title                    : "Mediant PowerShell Module"
+title_separator          : "|"
+name                     : "Shane Hoey"
+description              : "A PowerShell Module to manage an AudioCodes Mediant device"
+url                      : "https://shanehoey.github.io"
+baseurl                  : "/mediant"                                  
+repository               : "shanehoey/mediant"                         
+teaser                   : "/assets/images/teaser.jpg"                        
+breadcrumbs              : false 
+words_per_minute         : 200
+comments:
+  provider               :  false 
+  disqus:
+    shortname            : 
+  discourse:
+    server               : 
+  facebook:
+    appid                :
+    num_posts            : 
+    colorscheme          : 
+staticman:
+  allowedFields          : 
+  branch                 : 
+  commitMessage          : 
+  filename               : 
+  format                 : 
+  moderation             : 
+  path                   : 
+  requiredFields         : 
+  transforms:
+    email                :
+  generatedFields:
+    date:
+      type               : 
+      options:
+        format           : 
+reCaptcha:
+  siteKey                :
+  secret                 :
+
+atom_feed:
+  path                   : 
+
+search                   : true
+search_full_content      : true
+
+# SEO Related
+google_site_verification :                                                     
+bing_site_verification   :                                                     
+yandex_site_verification :                                             
+naver_site_verification  :                                               
+
+# Social Sharing
+twitter:
+  username               : shanehoey
+facebook:
+  username               : hoeys
+  app_id                 :
+  publisher              :
+og_image                 : "/assets/images/teaser.png"
+social:
+  type                   : Person
+  name                   : "Shane Hoey"
+  links: 
+   - "https://twitter.com/shanehoey"
+   - "https://facebook.com/hoeys"
+   - "https://linkedin.com/in/shanehoey"
+   - "https://shanehoey.com"
+
+# Analytics
+analytics:
+  provider               :  # false (default), "google", "google-universal", "custom"
+  google:
+    tracking_id          :
+
+# Site Author
+author:
+  name             : "Shane Hoey"
+  avatar           : "/assets/images/shane-hoey.jpg"
+  bio              : "Reinventing todays workspace with Modern Collaboration and Skype for Business"
+  location         : "Brisbane, Australia"
+  uri              : "https://shanehoey.com"
+  home             : "https://shanehoey.com"
+  facebook         : "hoeys"
+  github           : "shanehoey"
+  linkedin         : "shanehoey"
+  twitter          : "shanehoey"
+  youtube          : "hoeys"
+
+# Reading Files
+include:
+  - .htaccess
+  - _pages
+  - _docs
+  - _scripts
+  - _projects
+exclude:
+  - CHANGELOG
+  - config
+  - Gemfile
+  - LICENSE
+  - log
+  - README
+  - tmp
+keep_files:
+  - .git
+  - .svn
+
+encoding: "utf-8"
+markdown_ext: "markdown,mkdown,mkdn,mkd,md"
+
+# Conversion
+markdown: kramdown
+highlighter: rouge
+lsi: false
+excerpt_separator: "\n\n"
+incremental: false
+
+# Markdown Processing
+kramdown:
+  input: GFM
+  hard_wrap: false
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  smart_quotes: lsquo,rsquo,ldquo,rdquo
+  enable_coderay: false
+
+# Collections
+collections:
+  docs:
+    output: true
+    permalink: /:collection/:title/
+  pages:
+    output: true
+    permalink: /:title/
+  projects:
+    output: true
+    permalink: /:collection/:title/
+  scripts:
+    output: true
+    permalink: /:collection/:title/
+
+# Defaults
+defaults:
+  # _posts
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single
+      author_profile: true
+      read_time: false
+      comments: false
+      share: false
+      related: false
+      sitemap: true
+    header:
+      overlay_color: "#5e616c"
+      overlay_image: /assets/images/unsplash.jpg
+      overlay_filter: rgba(100, 100, 100, 0.5)
+      teaser: /assets/images/teaser.jpg 
+  # _docs
+  - scope:
+      path: ""
+      type: docs
+    values:
+      layout: single
+      author_profile: false
+      read_time: false
+      comments: false
+      share: false
+      related: true
+      sitemap: true
+      sidebar:
+        nav: "docs"
+      header:
+        overlay_color: "#5e616c"
+        overlay_image: /assets/images/unsplash-295008.jpg
+        overlay_filter: rgba(100, 100, 100, 0.5)
+        teaser: /assets/images/teaser.jpg
+  # _pages
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: singlepage
+      author_profile: false
+      read_time: false
+      comments: false
+      share: false
+      related: false
+      sitemap: true
+      header:
+        teaser: /assets/images/teaser.jpg
+        overlay_color: "#5e616c"
+        overlay_image: /assets/images/unsplash-295008.jpg
+        overlay_filter: rgba(100, 100, 100, 0.5)
+  # _projects
+  - scope:
+      path: ""
+      type: portfolio
+    values:
+      layout: singlepage
+      author_profile: true
+      read_time: false
+      comments: false
+      share: true
+      related: true
+      sitemap: true
+      header:
+        teaser: /assets/images/teaser.jpg
+        overlay_color: "#5e616c"
+        overlay_image: /assets/images/unsplash-295008.jpg
+        overlay_filter: rgba(100, 100, 100, 0.5)
+  # _scripts
+  - scope:
+      path: ""
+      type: scripts
+    values:
+      layout: singlepage
+      author_profile: true
+      read_time: false
+      comments: false
+      share: true
+      related: true
+      sitemap: true
+      header:
+        teaser: /assets/images/teaser.jpg
+        overlay_color: "#5e616c"
+        overlay_image: /assets/images/unsplash-295008.jpg
+        overlay_filter: rgba(100, 100, 100, 0.5)
+
+# Sass/SCSS
+sass:
+  sass_dir: _sass
+  style: compressed # http://sass-lang.com/documentation/file.SASS_REFERENCE.html#output_style
+
+# Outputting
+permalink: /:title/
+#paginate: 5 # amount of posts to show
+#paginate_path: /page:num/
+timezone: Australia/Brisbane 
+
+# Plugins (previously gems:)
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-feed
+  - jemoji
+  - jekyll-remote-theme
+
+# mimic GitHub Pages with --safe
+whitelist:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-feed
+  - jemoji
+  - jekyll-remote-theme
+
+# Archives
+#  Type
+#  - GitHub Pages compatible archive pages built with Liquid ~> type: liquid (default)
+#  - Jekyll Archives plugin archive pages ~> type: jekyll-archives
+#  Path (examples)
+#  - Archive page should exist at path when using Liquid method or you can
+#    expect broken links (especially with breadcrumbs enabled)
+#  - <base_path>/tags/my-awesome-tag/index.html ~> path: /tags/
+#  - <base_path/categories/my-awesome-category/index.html ~> path: /categories/
+#  - <base_path/my-awesome-category/index.html ~> path: /
+category_archive:
+  type: liquid
+  path: /categories/
+tag_archive:
+  type: liquid
+  path: /tags/
+# https://github.com/jekyll/jekyll-archives
+# jekyll-archives:
+#   enabled:
+#     - categories
+#     - tags
+#   layouts:
+#     category: archive-taxonomy
+#     tag: archive-taxonomy
+#   permalinks:
+#     category: /categories/:name/
+#     tag: /tags/:name/
+
+# HTML Compression
+# - http://jch.penibelst.de/
+compress_html:
+  clippings: all
+  ignore:
+    envs: development
+
+
+#custom
+github:           '[www.github.com/shanehoey](https://www.github.com/shanehoey)'
+gitpages:         '[shanehoey.github.io/mediant](https://shanehoey.github.io/mediant)'
+poshgal:          '[Powershell Gallery](https://www.powershellgallery.com/packages/mediant/'
+btn_paypal:       '[<i class="fa fa-paypal"></i> Show your Appreciation](https://www.paypal.me/shanehoey){: .btn .bth--primary .btn--info}'
+btn_github_watch: '[<i class="fa fa-eye"></i> Watch on Github](https://www.github.com/shanehoey/mediant/subscription/){: .btn .bth--primary .btn--info}'
+btn_github_fork:  '[<i class="fa fa-code-branch"></i> Fork on Github](https://www.github.com/shanehoey/mediant/fork/){: .btn .bth--primary .btn--info}'
+btn_github_star:  '[<i class="fa fa-star"></i> Star on Github](https://www.github.com/shanehoey/mediant/star/){: .btn .bth--primary .btn--info}'
+btn_github:       '[<i class="fa fa-github"></i> View on Github](https://www.github.com/shanehoey/mediant/){: .btn .bth--primary .btn--info}'
+btn_poshgal:      '[<i class="fa fa-code"></i> View on Powershell Gallery](https://www.powershellgallery.com/packages/mediant/){: .btn .bth--primary .btn--info}'

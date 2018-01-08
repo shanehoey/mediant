@@ -1,0 +1,46 @@
+---
+title: "Getting Started"
+excerpt: "Getting Started"
+layout: splash
+header:
+  cta_label: "<i class='fa fa-file'></i>getting started"
+  cta_url: "/"
+---
+
+Description of what {{ site.title }}  does. 
+
+## Latest Release
+
+The latest release of this project is hosted on {{ site.btn_github }}
+
+{{ site.btn_poshgal }}
+
+This development version of this project is hosted on {{ site.btn_github }}
+
+{{ site.btn_github }} {{ site.btn_github_watch }} {{ site.btn_github_fork }} {{ site.btn_github_star }}
+
+## Install latest release from PowerShell Gallery (Powershell v5)
+
+Install latest released version directly from PowerShell Gallary
+
+```powershell
+install-module -modulename {{ site.title }} -scope currentuser
+```
+
+## Install manually  (Powershell v3-v4)
+
+1. Copy the {{ site.title }}.psm1 file to a {{ site.title }} folder into one of the following folders
+ * `%userprofile%\Documents\WindowsPowerShell\Modules\WordDoc`
+ * `%windir%\System32\WindowsPowerShell\v1.0\Modules\WordDoc`
+
+## Example Script
+
+Once you have installed the module you can now Create Word Document's from powershell
+
+```powershell
+Import-Module {{ site.title }}
+
+```
+
+**ProTip:** Be sure to check out the [example scripts]({{ site.url }}{{ site.baseurl }}) 
+{: .notice--success}
