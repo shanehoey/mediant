@@ -611,7 +611,7 @@ Function Get-MediantDeviceStatus
     $parameters.mediant    =  $Mediant    
     $parameters.action     =  '/api/v1/status'
     $parameters.credential =  $Credential
-    $parameters.method     =  'Post'
+    $parameters.method     =  'GET'
     $parameters.http       =  $http    
     
   } 
@@ -619,23 +619,23 @@ Function Get-MediantDeviceStatus
   {
     if ($pscmdlet.ShouldProcess("$Mediant"))
     {
-      if (Test-MediantDevice -Mediant $Mediant -Credential $Credential -http $http)
+      if (Test-MediantDevice -Mediant $parameters.Mediant -Credential $parameters.Credential -http $parameters.http)
       {
         $result = (Invoke-MediantWebRequest @parameters)
         $result = [MediantDeviceStatus]::new($Mediant, 
           $result.StatusCode,
           $result.StatusDescription,
-          ($result.rawcontent | convertfrom-json).localTimeStamp,
-          ($result.rawcontent | convertfrom-json).ipAddress, 
-          ($result.rawcontent | convertfrom-json).subnetMask, 
-          ($result.rawcontent | convertfrom-json).defaultGateway, 
-          ($result.rawcontent | convertfrom-json).productType, 
-          ($result.rawcontent | convertfrom-json).versionID, 
-          ($result.rawcontent | convertfrom-json).protocolType, 
-          ($result.rawcontent | convertfrom-json).operationalState,
-          ($result.rawcontent | convertfrom-json).highAvailability, 
-          ($result.rawcontent | convertfrom-json).serialNumber,
-          ($result.rawcontent | convertfrom-json).macAddress
+          ($result.content | convertfrom-json).localTimeStamp,
+          ($result.content | convertfrom-json).ipAddress, 
+          ($result.content | convertfrom-json).subnetMask, 
+          ($result.content | convertfrom-json).defaultGateway, 
+          ($result.content | convertfrom-json).productType, 
+          ($result.content | convertfrom-json).versionID, 
+          ($result.content | convertfrom-json).protocolType, 
+          ($result.content | convertfrom-json).operationalState,
+          ($result.content | convertfrom-json).highAvailability, 
+          ($result.content | convertfrom-json).serialNumber,
+          ($result.content | convertfrom-json).macAddress
         ) 
         return $result   
       }
@@ -2531,7 +2531,6 @@ function Get-xMediantPerformanceMonitoring
   }
 }
 
-Export-ModuleMember -Function *-MediantDevice*
 
 # SIG # Begin signature block
 # MIINCgYJKoZIhvcNAQcCoIIM+zCCDPcCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB

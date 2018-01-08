@@ -27,7 +27,7 @@ Author = 'Shane Hoey'
 CompanyName = '-'
 
 # Copyright statement for this module
-Copyright = '(c) 2016 Shane Hoey. All rights reserved.'
+Copyright = '(c) 2016-2018 Shane Hoey. All rights reserved.'
 
 # Description of the functionality provided by this module
 Description = 'Remotely access a AudioCodes Mediant Gateway or SBC via Powershell'
@@ -69,9 +69,7 @@ Description = 'Remotely access a AudioCodes Mediant Gateway or SBC via Powershel
 # NestedModules = @()
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = 'Get-MediantDevice', 'Get-MediantDeviceFileCLIScript', 
-               'Get-MediantDeviceFileIni', 'Get-MediantDeviceStatus', 
-               'Restart-MediantDevice', 'Save-MediantDevice', 'Test-MediantDevice'
+FunctionsToExport = @()
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
