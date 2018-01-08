@@ -9,15 +9,13 @@ main:
     url: /docs
   - title: "Scripts"
     url: /scripts
-  - title: "Projects"
-    url: /projects
 
 docs:
   - title: Module Help
     children:
       - title: "get-example"
         url: /docs/get-example
-  - title: About WordDoc
+  - title: About MEDIANT PowerShell Module
     children:
       - title: "Contributing"
         url: /contributing/

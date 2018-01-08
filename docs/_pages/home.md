@@ -1,10 +1,11 @@
 ---
-title: "Template"
-excerpt: "Template"
+title: "Mediant PowerShell Module"
+excerpt: "Manage AudioCodes Mediant devices directly from Windows PowerShell"
 permalink: /
+layout: splash
 header:
-  cta_label: "<i class='fa fa-download'></i>Template"
-  cta_url: "/"
+  cta_label: "<i class='fa fa-download'></i>Getting Started"
+  cta_url: "/Getting Started"
 feature_row:
   - image_path: /assets/images/teaser-light-gettingstarted.jpg
     alt: "Getting Started"

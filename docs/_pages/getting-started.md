@@ -7,13 +7,11 @@ header:
   cta_url: "/"
 ---
 
-Description of what {{ site.title }}  does. 
+Manage a AudioCodes Mediant device with PowerSHell
 
 ## Latest Release
 
-The latest release of this project is hosted on {{ site.btn_github }}
-
-{{ site.btn_poshgal }}
+The latest release of this project is hosted on {{ site.btn_github }} {{ site.btn_poshgal }}
 
 This development version of this project is hosted on {{ site.btn_github }}
 
