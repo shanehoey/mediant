@@ -11,8 +11,7 @@ $cert
 
 $version = "1.0.0"
 
-Update-ModuleManifest -Path ".\mediant\mediant.psd1" -ModuleVersion $version -FunctionsToExport "Get-MediantDevice","Get-MediantDeviceAlarm","Get-MediantDeviceFileCliScript","Get-MediantDeviceFileIni","Get-MediantDeviceLicense","Get-MediantDevicePerformanceMonitoring","Get-MediantDeviceStatus","Restart-MediantDevice","Save-MediantDevice","Test-MediantDevice"                    
-
+Update-ModuleManifest -Path ".\mediant\mediant.psd1" -ModuleVersion $version -FunctionsToExport "Get-MediantDevice","Get-MediantDeviceAlarm","Get-MediantDeviceFileCliScript","Get-MediantDeviceFileIni","Get-MediantDeviceLicense","Get-MediantDevicePerformanceMonitoring","Get-MediantDeviceStatus","Restart-MediantDevice","Save-MediantDevice","Test-MediantDevice" 
 
 Set-AuthenticodeSignature -filepath ".\mediant\mediant.psd1" -Certificate $cert
 (Get-AuthenticodeSignature -FilePath ".\mediant\mediant.psd1").Status
@@ -28,7 +27,7 @@ Import-Module .\mediant\mediant.psd1
 get-command -Module mediant | select name,version
 
 #Manually run these 
-code .\Scripts\example-1.ps1
+code .\Scripts\example.ps1
 
 ### MANUAL GitHUB Commit to master
 
