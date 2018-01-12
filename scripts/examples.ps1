@@ -5,11 +5,9 @@ import-module mediant
 
 get-command -Module  mediant | sort-object name | select-object name
 
-
 $mediant = "172.30.69.146"
 $http = "http"
 $credential = New-Object System.Management.Automation.PSCredential("Admin",("Admin" | ConvertTo-SecureString -asPlainText -Force))
-
 
 $mediantparameters = @{
     mediant = "172.30.69.146"
@@ -17,17 +15,8 @@ $mediantparameters = @{
     credential = New-Object System.Management.Automation.PSCredential("Admin",("Admin" | ConvertTo-SecureString -asPlainText -Force))
 }
 
-
 Get-MediantDevice @mediantparameters
 $mediantdevice = Get-MediantDevice @mediantparameters
-
-
-#Borken no mediant devuce
-Get-MediantdevicePerformanceMonitoring -MediantDevice $mediantdevice -listavailable
-
-
-
-
 
 Test-MediantDevice @mediantparameters
 Test-MediantDevice @mediantparameters -quiet
@@ -61,7 +50,7 @@ Get-MediantDeviceLicense -MediantDevice $mediantdevice
 
 Get-MediantDeviceStatus @mediantparameters
 Get-MediantDeviceStatus -MediantDevice $mediantdevice
-##
+
 Get-MediantdeviceAlarm @mediantparameters  #active default
 Get-MediantdeviceAlarm @mediantparameters -alarm active 
 Get-MediantdeviceAlarm @mediantparameters -alarm active -alarmlimit 0
@@ -84,6 +73,8 @@ Get-MediantdeviceAlarm -MediantDevice $mediantdevice -alarm history -alarmlimit 
 Get-MediantdeviceAlarm -MediantDevice $mediantdevice -alarm history -alarmlimit 2 -alarmbefore 5
 Get-MediantdeviceAlarm -MediantDevice $mediantdevice -alarm history -alarmlimit 2 -alarmafter 5 
 
+#this is broke on v1.0
+Get-MediantdevicePerformanceMonitoring -MediantDevice $mediantdevice -listavailable
 
 Get-MediantdevicePerformanceMonitoring @mediantparameters -listavailable | Format-Wide
 Get-MediantdevicePerformanceMonitoring @mediantparameters -interval realtime -PerformanceMonitor "mtcMtceDspUtilization"
@@ -95,19 +86,12 @@ foreach ($monitor in (Get-MediantdevicePerformanceMonitoring @mediantparameters 
  Get-MediantdevicePerformanceMonitoring @mediantparameters -interval average -PerformanceMonitor $monitor | FT
 }
 
-
-## 
 Get-MediantDeviceFileCliScript @mediantparameters 
 Get-MediantDeviceFileCliScript @mediantparameters -file temp.cfg 
-notepad .\temp.cfg
 Get-MediantDeviceFileCliScript -MediantDevice $mediantdevice 
 Get-MediantDeviceFileCliScript -MediantDevice $mediantdevice -filepath temp.cfg 
-notepad .\temp.cfg
 
-## 
 Get-MediantDeviceFileIni @mediantparameters
 Get-MediantDeviceFileIni @mediantparameters -file .\temp.cfg
-notepad .\temp.cfg
 Get-MediantDeviceFileIni -MediantDevice $mediantdevice 
 Get-MediantDeviceFileIni -MediantDevice $mediantdevice -filepath .\temp.cfg
-notepad .\temp.cfg
