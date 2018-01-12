@@ -1,11 +1,13 @@
 ﻿#requires -version 5.0
 #requires -module Mediant
 
+Import-Module .\mediant\mediant\Mediant.psd1
 import-module mediant 
 
 $mediantcredential = Get-Credential -UserName "Admin" -Message "Mediant Credential"
 
 $mediantdevice = Get-MediantDevice -Mediant 172.30.69.146 -Credential $mediantcredential -Http http
 
-Get-MediantDeviceFileIni -MediantDevice $mediantdevice 
+get-MediantDeviceFileIni -MediantDevice $mediantdevice
 
+get-xMediantDeviceSoftware -MediantDevice $mediantdevice
