@@ -10,7 +10,7 @@ header:
 
 ## Latest Release
 
-The latest release of this project is hosted on {{ site.btn_github }} {{ site.btn_poshgal }}
+The latest release of this project is hosted on {{ site.btn_poshgal }}
 
 This development version of this project is hosted on {{ site.btn_github }} {{ site.btn_github_watch }} {{ site.btn_github_fork }} {{ site.btn_github_star }}
 
@@ -24,12 +24,14 @@ install-module -modulename mediant -scope currentuser
 
 ## Install manually  (Powershell v3 & v4)
 
-Copy the module manuall1
+Copy the Mediant Folder on Git humodule manually
 
 ```powershell
+
 Copy the mediant.psm1/mediant.psd1/license.txt files to a "Mediant" folder into one of the following folders
- * `%userprofile%\Documents\WindowsPowerShell\Modules\WordDoc`
- * `%windir%\System32\WindowsPowerShell\v1.0\Modules\WordDoc`
+ * %userprofile%\Documents\WindowsPowerShell\Modules\WordDoc
+ * %windir%\System32\WindowsPowerShell\v1.0\Modules\WordDoc
+ 
 ```
 
 ## Example Script
@@ -39,12 +41,10 @@ Once you have installed the module you can now Manage Audiocodes Mediant devices
 ```powershell
 
 Import-Module mediant
-
 $credential = get-credential
-
 get-mediantdevicelicense -mediant $mediant -http https -credential $credential
 
 ```
 
-**ProTip:** Be sure to check out the [example scripts]({{ site.url }}{{ site.baseurl }}) 
+**ProTip:** Be sure to check out the [example scripts](/scripts/) 
 {: .notice--success}
