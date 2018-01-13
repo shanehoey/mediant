@@ -51,10 +51,10 @@ search                   : true
 search_full_content      : true
 
 # SEO Related
-google_site_verification :                                                     
-bing_site_verification   :                                                     
-yandex_site_verification :                                             
-naver_site_verification  :                                               
+google_site_verification : "D5Dx5Mv4e0ybQNJSTl8s8Tv7bmb5H3dxv7_otNBLkvk"
+bing_site_verification   : "0799B788BF62C8E67B1CE27B3B956F7C"
+yandex_site_verification : 
+naver_site_verification  : 
 
 # Social Sharing
 twitter:
