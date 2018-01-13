@@ -6,4 +6,4 @@ permalink: /docs
 
 # Documentation
 
-Add documentation excerpt
+The Mediant PowerShell Module enables you to perform basic management functions on a AudioCodes Mediant Device directly from PowerShell.
