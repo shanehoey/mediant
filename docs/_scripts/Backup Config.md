@@ -2,6 +2,7 @@
 title: "Backup a Mediant Gateway/SBC config"
 excerpt: "Backup a Mediant Gateway/SBC config"
 category: "general"
+permalink: scripts/backup-config/
 ---
 
 ## -----------------Example-----------------

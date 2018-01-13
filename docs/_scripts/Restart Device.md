@@ -2,6 +2,7 @@
 title: "Restart a Mediant Gateway/SBC config"
 excerpt: "Restart a Mediant Gateway/SBC config"
 category: "general"
+permalink: scripts/restart-device
 ---
 
 ## -----------------Example-----------------
