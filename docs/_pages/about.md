@@ -1,12 +1,11 @@
-
----
-title: "About "
-excerpt: "About"
-layout: singlepage
+ ---
+title: "About Mediant PowerShell Module"
+excerpt: "About Mediant PowerShell Module"
+layout: splash
 ---
 
 ## About
-The Mediant PowerShell Module enables you to perform basic management functions on a AudioCodes Mediant Device directly from PowerShell by using the standard Rest API.
+The Mediant PowerShell Module enables you to perform basic management functions on a AudioCodes Mediant Device directly from PowerShell. This unofficial module manages the device via the Rest API.
 
 AudioCodes and Mediant are copyright and trademark of AudioCodes Ltd.  This Module has not been developed by AudioCodes, so don't ask them for support if you use this module.
 
