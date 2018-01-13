@@ -1,13 +1,12 @@
 ---
 title: "Getting Started"
-excerpt: "Getting Started"
+excerpt: "Getting Started with managing a AudioCodes Mediant Device with Windows PowerShell"
 layout: splash
 header:
-  cta_label: "<i class='fa fa-file'></i>getting started"
-  cta_url: "/"
+  cta_label: "<i class="fab fa-github"></i> View on Github"
+  cta_url: "https://github.com/shanehoey/mediant/"
 ---
 
-Manage a AudioCodes Mediant device with Windows PowerShell
 
 ## Latest Release
 
