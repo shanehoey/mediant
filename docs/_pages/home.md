@@ -10,7 +10,7 @@ feature_row:
   - image_path: /assets/images/site/mediant-800-sbc-transparent-300x138.png
     alt: "Getting Started"
     title: "Getting Started"
-    excerpt: "Want to just jump right in and get started with the Mediant PowerShell Mondule ?"
+    excerpt: "Want to just jump right in and get started with the Mediant PowerShell Module ?"
     url: "/getting-started"
     btn_label: "<i class='fa fa-download'></i> Start Here"
     btn_class: "btn--primary"
@@ -23,8 +23,8 @@ feature_row:
     btn_class: "btn--primary"
   - image_path: /assets/images/site/mediant-1000b-transparent-300x138.png
     alt: "Script Examples"
-    title: "Script Exampls"
-    excerpt: "Just want to see some examples? Check out some great example scripts right here."
+    title: "Script Examples"
+    excerpt: "Just want to see some example scripts? Check out some great examples right here."
     url: "/scripts"
     btn_class: "btn--primary"
     btn_label: "<i class='fa fa-code'></i> Learn More"
