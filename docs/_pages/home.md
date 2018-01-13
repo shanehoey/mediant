@@ -14,7 +14,7 @@ feature_row:
     url: "/getting-started"
     btn_label: "<i class='fa fa-download'></i> Start Here"
     btn_class: "btn--primary"
-  - image_path: /assets/images/site/mediant-2600-sbc-transparent-300x79.png
+  - image_path: /assets/images/site/mediant-2600-sbc-transparent-300x138.png
     alt: "Documentation"
     title: "Documentation"
     excerpt: "Learn how to use each function in the Mediant PowerShell Module ?"
