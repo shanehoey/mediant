@@ -1,9 +1,8 @@
+
 ---
 title: "About "
 excerpt: "About"
-header:
-  cta_label: "<i class='fa fa-download'></i>About"
-  cta_url: "/"
+layout: singlepage
 ---
 
 ## About
