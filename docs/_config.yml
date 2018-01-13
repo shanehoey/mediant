@@ -197,9 +197,9 @@ defaults:
       comments: false
       share: false
       related: false
+      sitemap: true
       sidebar:
         nav: "docs"
-      sitemap: true
    header:
         teaser: /assets/images/teaser.jpg
         overlay_color: "#5e616c"
