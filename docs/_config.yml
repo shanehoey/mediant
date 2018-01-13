@@ -172,7 +172,7 @@ defaults:
       path: ""
       type: docs
     values:
-      layout: single
+      layout: singlepage
       author_profile: false
       read_time: false
       comments: false
