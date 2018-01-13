@@ -1,6 +1,5 @@
 ---
 title: "Contributing"
-excerpt: "Contributing"
 ---
 
 ## Contributing

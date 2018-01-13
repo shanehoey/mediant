@@ -1,6 +1,5 @@
 ---
 title:   "Mediant PowerShell Module License"
-excerpt: "License"
 ---
 
 ## Copyright (c) 2018 Shane Hoey

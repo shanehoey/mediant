@@ -1,6 +1,6 @@
 ---
-title: "Credits"
-excerpt: "Credits"
+title: "Credits & thanks"
+permalink: /credits
 ---
 
 ## Credits
@@ -20,3 +20,7 @@ Say Thanks where its due...
 - [Mininal Mistakes](https://mademistakes.com/work/minimal-mistakes-jekyll-theme/) 
 - [Font Awesome](http://fontawesome.io/)
 - [Unsplash](https://unsplash.com/)
+
+
+
+- AudioCodes and Mediant are trademarks of [Audiocodes Ltd](http://audiocodes.com/).

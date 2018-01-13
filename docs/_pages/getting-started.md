@@ -46,5 +46,5 @@ get-mediantdevicelicense -mediant $mediant -http https -credential $credential
 
 ```
 
-**ProTip:** Be sure to check out the [example scripts](/scripts/) 
+**ProTip:** Be sure to check out the [example scripts](scripts/) 
 {: .notice--success}

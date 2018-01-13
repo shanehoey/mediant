@@ -1,6 +1,5 @@
 ---
 title:   "Privacy"
-excerpt: "Privacy"
 ---
 
 ## Privacy

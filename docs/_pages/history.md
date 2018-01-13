@@ -1,6 +1,5 @@
 ---
 title: "History"
-excerpt: "History"
 ---
 
 ## History
