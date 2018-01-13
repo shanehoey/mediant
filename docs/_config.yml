@@ -162,7 +162,7 @@ defaults:
         overlay_color: "#5e616c"
         overlay_image: /assets/images/site/mediant-1000-left-image.jpg
         overlay_filter: 0.6
-        teaser: /assets/images/teaser.jpg 
+        teaser: /assets/images/site/teaser.jpg 
   # _docs
   - scope:
       path: ""
@@ -181,7 +181,7 @@ defaults:
         overlay_color: "#5e616c"
         overlay_image: /assets/images/site/mediant-1000-left-image.jpg
         overlay_filter: 0.6
-        teaser: /assets/images/site/teaser.jpg
+        teaser: /assets/images/site/mediant-800-sbc-transparent-300x138.png
   # _pages
   - scope:
       path: ""
@@ -214,7 +214,7 @@ defaults:
       related: true
       sitemap: true
       header:
-        teaser: /assets/images/site/teaser.jpg
+        teaser: /assets/images/site/mediant-800-sbc-transparent-300x138.png
         overlay_color: "#5e616c"
         overlay_image: /assets/images/site/mediant-1000-left-image.jpg
         overlay_filter: 0.6
