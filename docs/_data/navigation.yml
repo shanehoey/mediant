@@ -15,6 +15,27 @@ docs:
     children:
       - title: "get-example"
         url: /docs/get-example
+      - title: "get-mediantdevice"
+        url: /docs/get-mediantdevice
+      - title: "get-mediantdevicealarm"
+        url: /docs/get-mediantdevicealarm
+      - title: "get-mediantdevicefilecliscript"
+        url: /docs/get-mediantdevicefilecliscript
+      - title: "get-mediantdevicefileini"
+        url: /docs/get-mediantdevicefileini
+      - title: "get-mediantdevicelicense"
+        url: /docs/get-mediantdevicelicense
+      - title: "get-mediantdeviceperformancemonitoring"
+        url: /docs/get-mediantdeviceperformancemonitoring
+      - title: "get-mediantdevicestatus"
+        url: /docs/get-mediantdevicestatus
+      - title: "restart-mediantdevice"
+        url: /docs/restart-mediantdevice
+      - title: "save-mediantdevice"
+        url: /docs/save-mediantdevice
+      - title: "test-mediantdevice"
+        url: /docs/test-mediantdevice
+        
   - title: About MEDIANT PowerShell Module
     children:
       - title: "Contributing"
