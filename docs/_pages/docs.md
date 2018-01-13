@@ -1,7 +1,7 @@
 ---
 title: "Mediant Powershell Module Documentation"
 excerpt: "Mediant Powershell Module Documentation"
-permalink: /docs
+permalink: /docs/
 ---
 
 # Documentation

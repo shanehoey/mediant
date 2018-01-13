@@ -2,7 +2,7 @@
 title: "Backup a Mediant Gateway/SBC CLI script"
 excerpt: "Backup a Mediant Gateway/SBC CLI script"
 category: "general"
-permalink: scripts/backup-cli.html
+permalink: scripts/backup-cli/
 ---
 
 ## -----------------Example-----------------
