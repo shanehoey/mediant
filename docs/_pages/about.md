@@ -1,4 +1,4 @@
- ---
+---
 title: "About Mediant PowerShell Module"
 excerpt: "About Mediant PowerShell Module"
 layout: splash
