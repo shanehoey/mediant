@@ -1,5 +1,5 @@
 ---
-title: "Backup a Mediant Gateway/SBC CLI script"
+title: "Backup CLI script"
 excerpt: "Backup a Mediant Gateway/SBC CLI script"
 category: "general"
 permalink: scripts/backup-cli/

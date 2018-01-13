@@ -1,5 +1,5 @@
 ---
-title: "Backup a Mediant Gateway/SBC config"
+title: "Backup Config"
 excerpt: "Backup a Mediant Gateway/SBC config"
 category: "general"
 permalink: scripts/backup-config/
@@ -9,9 +9,6 @@ permalink: scripts/backup-config/
 Backup a Mediant Gateway/SBC in a single powershell command
 
 ```powershell
-
-#requires -version 4.0
-#requires -module Mediant
 
 get-MediantDeviceFileIni -Mediant "192.16.0.2" -http https -credential (get-credential) -file .\config.ini
 

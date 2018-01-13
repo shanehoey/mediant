@@ -1,5 +1,5 @@
 ---
-title: "Restart a Mediant Gateway/SBC config"
+title: "Restart Device"
 excerpt: "Restart a Mediant Gateway/SBC config"
 category: "general"
 permalink: scripts/restart-device/
@@ -9,9 +9,6 @@ permalink: scripts/restart-device/
 Restart a Mediant Gateway/SBC in a single powershell command
 
 ```powershell
-
-#requires -version 4.0
-#requires -module Mediant
 
 restart-MediantDevice -Mediant "192.16.0.2" -http https -credential (get-credential) -SaveConfiguration $True -TimeoutGraceful 
 
