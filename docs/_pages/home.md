@@ -4,8 +4,9 @@ excerpt: "Manage AudioCodes Mediant devices directly from Windows PowerShell"
 permalink: /
 layout: splash
 header:
-  cta_label: "<i class='fa fa-download'></i>Getting Started"
-  cta_url: "/Getting Started"
+  cta_label: "<i class='fa fa-download'></i>Learn More..."
+  cta_url: "/about"
+  overlay_filter: 0.5 
 feature_row:
   - title: "Getting Started"
     excerpt: "Want to just jump right in and get started with the Mediant PowerShell Module ?"
