@@ -7,23 +7,23 @@ header:
   cta_label: "<i class='fa fa-download'></i>Getting Started"
   cta_url: "/Getting Started"
 feature_row:
-  - image_path: /assets/images/teaser-light-gettingstarted.jpg
+  - image_path: /assets/images/site/greyphone-320x60.jpg
     alt: "Getting Started"
     title: "Getting Started"
-    excerpt: "Do you just Want to just jump&nbsp;right in and get started with {% site.title %} straight away&emsp;?"
+    excerpt: "Want to just jump right in and get started with the Mediant PowerShell Mondule ?"
     url: "/getting-started"
     btn_label: "<i class='fa fa-download'></i> Start Here"
     btn_class: "btn--primary"
-  - image_path: /assets/images/teaser-light-documentation.jpg
+  - image_path: /assets/images/site/greyphone-320x60.jpg
     alt: "Documentation"
     title: "Documentation"
-    excerpt: "Want to dig deeper and learn how to use  {{ site.title }} ?"
+    excerpt: "Learn how to use each function in the Mediant PowerShell Module ?"
     url: "/docs"
     btn_label: "<i class='fa fa-question-circle'></i> Documentation"
     btn_class: "btn--primary"
-  - image_path: /assets/images/teaser-light-scripts.jpg
-    alt: "Script Library"
-    title: "Script Library"
+  - image_path: /assets/images/site/greyphone-320x60.jpg
+    alt: "Script Examples"
+    title: "Script Exampls"
     excerpt: "Just want to see some examples? Check out some great example scripts right here."
     url: "/scripts"
     btn_class: "btn--primary"
