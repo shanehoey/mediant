@@ -20,10 +20,10 @@ This development version of this project is hosted on {{ site.btn_github }} {{ s
 Install latest released version directly from PowerShell Gallary
 
 ```powershell
-install-module -modulename {{ site.title }} -scope currentuser
+install-module -modulename mediant -scope currentuser
 ```
 
-## Install manually  (Powershell v3-v4)
+## Install manually  (Powershell v3 & v4)
 
 Copy the module manuall1
 
