@@ -165,7 +165,7 @@ defaults:
       header:
         overlay_color: "#5e616c"
         overlay_image: /assets/images/site/mediant-1000-left-image.jpg
-        overlay_filter: 0.7
+        overlay_filter: 0.6
         teaser: /assets/images/teaser.jpg 
   # _docs
   - scope:
@@ -184,8 +184,8 @@ defaults:
       header:
         overlay_color: "#5e616c"
         overlay_image: /assets/images/site/mediant-1000-left-image.jpg
-        overlay_filter: 0.7
-        teaser: /assets/images/teaser.jpg
+        overlay_filter: 0.6
+        teaser: /assets/images/site/teaser.jpg
   # _pages
   - scope:
       path: ""
@@ -204,7 +204,7 @@ defaults:
         teaser: /assets/images/site/teaser.jpg
         overlay_color: "#5e616c"
         overlay_image: /assets/images/site/mediant-1000-left-image.jpg
-        overlay_filter: 0.7
+        overlay_filter: 0.6
   # _projects
   - scope:
       path: ""
@@ -218,10 +218,10 @@ defaults:
       related: true
       sitemap: true
       header:
-        teaser: /assets/images/teaser.jpg
+        teaser: /assets/images/site/teaser.jpg
         overlay_color: "#5e616c"
         overlay_image: /assets/images/site/mediant-1000-left-image.jpg
-        overlay_filter: 0.7
+        overlay_filter: 0.6
   # _scripts
   - scope:
       path: ""
@@ -235,10 +235,10 @@ defaults:
       related: true
       sitemap: true
       header:
-        teaser: /assets/images/teaser.jpg
+        teaser: /assets/images/site/teaser.jpg
         overlay_color: "#5e616c"
         overlay_image: /assets/images/site/mediant-1000-left-image.jpg
-        overlay_filter: 0.7
+        overlay_filter: 0.6
 
 # Sass/SCSS
 sass:
