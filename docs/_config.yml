@@ -99,7 +99,6 @@ include:
   - _pages
   - _docs
   - _scripts
-  - _projects
 exclude:
   - CHANGELOG
   - config
@@ -141,9 +140,6 @@ collections:
   pages:
     output: true
     permalink: /:title/
-  projects:
-    output: true
-    permalink: /:collection/:title/
   scripts:
     output: true
     permalink: /:collection/:title/
@@ -200,23 +196,6 @@ defaults:
       sitemap: true
       sidebar:
         nav: "docs"
-      header:
-        teaser: /assets/images/site/teaser.jpg
-        overlay_color: "#5e616c"
-        overlay_image: /assets/images/site/mediant-1000-left-image.jpg
-        overlay_filter: 0.6
-  # _projects
-  - scope:
-      path: ""
-      type: portfolio
-    values:
-      layout: singlepage
-      author_profile: true
-      read_time: false
-      comments: false
-      share: true
-      related: true
-      sitemap: true
       header:
         teaser: /assets/images/site/teaser.jpg
         overlay_color: "#5e616c"
@@ -309,9 +288,9 @@ compress_html:
 github:           '[www.github.com/shanehoey](https://www.github.com/shanehoey)'
 gitpages:         '[shanehoey.github.io/mediant](https://shanehoey.github.io/mediant)'
 poshgal:          '[Powershell Gallery](https://www.powershellgallery.com/packages/mediant/'
-btn_paypal:       '[<i class="fa fa-paypal"></i> Show your Appreciation](https://www.paypal.me/shanehoey){: .btn .bth--primary .btn--info}'
-btn_github_watch: '[<i class="fa fa-eye"></i> Watch on Github](https://www.github.com/shanehoey/mediant/subscription/){: .btn .bth--primary .btn--info}'
-btn_github_fork:  '[<i class="fa fa-code-branch"></i> Fork on Github](https://www.github.com/shanehoey/mediant/fork/){: .btn .bth--primary .btn--info}'
-btn_github_star:  '[<i class="fa fa-star"></i> Star on Github](https://www.github.com/shanehoey/mediant/star/){: .btn .bth--primary .btn--info}'
-btn_github:       '[<i class="fa fa-github"></i> View on Github](https://www.github.com/shanehoey/mediant/){: .btn .bth--primary .btn--info}'
-btn_poshgal:      '[<i class="fa fa-code"></i> View on Powershell Gallery](https://www.powershellgallery.com/packages/mediant/){: .btn .bth--primary .btn--info}'
+btn_paypal:       '[<i class="fa fa-paypal"></i> Show your Appreciation](https://www.paypal.me/shanehoey){: .btn .bth--small .btn--inverse}'
+btn_github_watch: '[<i class="fa fa-eye"></i> Watch on Github](https://www.github.com/shanehoey/mediant/subscription/){: .btn .bth--small .btn--inverse}'
+btn_github_fork:  '[<i class="fa fa-code-branch"></i> Fork on Github](https://www.github.com/shanehoey/mediant/fork/){: .btn .bth--small .btn--inverse}'
+btn_github_star:  '[<i class="fa fa-star"></i> Star on Github](https://www.github.com/shanehoey/mediant/star/){: .btn .bth--small .btn--inverse}'
+btn_github:       '[<i class="fa fa-github"></i> View on Github](https://www.github.com/shanehoey/mediant/){: .btn .bth--small .btn--inverse}'
+btn_poshgal:      '[<i class="fa fa-code"></i> View on Powershell Gallery](https://www.powershellgallery.com/packages/mediant/){: .btn .bth--small .btn--inverse}'
