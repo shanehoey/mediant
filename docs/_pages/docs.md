@@ -1,7 +1,8 @@
 ---
 title: "Documentation"
-excerpt: "Documentation Excerpt"
+excerpt: "Documentation"
 permalink: /docs
+layout: single2
 ---
 
 # Documentation
