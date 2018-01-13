@@ -1,5 +1,5 @@
 ---
-title:   "License"
+title:   "Mediant PowerShell Module License"
 excerpt: "License"
 ---
 
