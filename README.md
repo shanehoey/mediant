@@ -1,6 +1,6 @@
 # Mediant PowerShell Module
 
-## Manage an AudioCodes Mediant device directly from PowerShell
+**Manage an AudioCodes Mediant device directly from PowerShell**
 
 This project's documentation is hosted on Git Pages
 https://shanehoey.github.io/mediant/
