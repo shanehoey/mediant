@@ -1,7 +1,7 @@
 ---
 title: "Scripts"
 excerpt: "Scripts"
-permalink: /scripts
+permalink: /scripts/
 layout: splash
 ---
 Are you using one of my Scripts Commercially ? {{ site.btn_paypal }}
