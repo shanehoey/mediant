@@ -197,8 +197,10 @@ defaults:
       comments: false
       share: false
       related: false
+      sidebar:
+        nav: "docs"
       sitemap: true
-      header:
+   header:
         teaser: /assets/images/teaser.jpg
         overlay_color: "#5e616c"
         overlay_image: /assets/images/site/mediant-1000-left-image.jpg
