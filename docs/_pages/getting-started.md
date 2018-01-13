@@ -6,9 +6,11 @@ layout: splash
 
 ## Latest Release
 
-The latest release of this project is hosted on {{ site.btn_poshgal }}
+The latest release of this project is hosted on 
+{{ site.btn_poshgal }}
 
-This development version of this project is hosted on {{ site.btn_github }} {{ site.btn_github_watch }} {{ site.btn_github_fork }} {{ site.btn_github_star }}
+This development version of this project is hosted on 
+{{ site.btn_github }} {{ site.btn_github_watch }} {{ site.btn_github_fork }} {{ site.btn_github_star }}
 
 ## Install latest release from PowerShell Gallery (Powershell v5)
 
