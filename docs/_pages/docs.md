@@ -1,6 +1,6 @@
 ---
-title: "Documentation"
-excerpt: "Documentation"
+title: "Mediant Powershell Module Documentation"
+excerpt: "Mediant Powershell Module Documentation"
 permalink: /docs
 ---
 
