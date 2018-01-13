@@ -39,7 +39,9 @@ Once you have installed the module you can now Manage Audiocodes Mediant devices
 ```powershell
 
 Import-Module mediant
+
 $credential = get-credential
+
 get-mediantdevicelicense -mediant $mediant -http https -credential $credential
 
 ```
