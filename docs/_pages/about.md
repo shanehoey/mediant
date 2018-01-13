@@ -17,7 +17,8 @@ AudioCodes and Mediant are copyright and trademark of AudioCodes Ltd.  This Modu
  - Restart a Mediant device, (timed, gracefull or immediate)
 
 ## Usage
-```
+
+```powershell
 $credential = Get-credential
 $mediantdevice = get-mediantdevice -mediant 192.168.10.1 -http https -credential $credential
 get-mediantdeviceinifile -mediantdevice $mediantdevice
