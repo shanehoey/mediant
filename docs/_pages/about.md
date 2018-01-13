@@ -7,20 +7,27 @@ header:
 ---
 
 ## About
+The Mediant PowerShell Module enables you to perform basic management functions on a AudioCodes Mediant Device directly from PowerShell by using the standard Rest API.
 
+AudioCodes and Mediant are copyright and trademark of AudioCodes Ltd.  This Module has not been developed by AudioCodes, so don't ask them for support if you use this module.
 
 ## Notable Features
- - 
- - 
- - 
- - 
+ - Get Statistics form the Device
+ - Backup a Devies config to either the command line or a file. 
+ - Backup a Devies CLI Script to either the command line or a file. 
+ - Save a running config on Mediant device
+ - Restart a Mediant device, (timed, gracefull or immediate)
 
 ## Usage
-
+```
+$credential = Get-credential
+$mediantdevice = get-mediantdevice -mediant 192.168.10.1 -http https -credential $credential
+get-mediantdeviceinifile -mediantdevice $mediantdevice
+restart-mediantdevice -mediantdevice $mediantdevice
 
 
 ### Pre-requisites
-
+ - PowerShell 3.0
 
 ### License 
 This PowerShell Script/Module is distributed under the [MIT License](/license)
