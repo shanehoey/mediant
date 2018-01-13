@@ -27,7 +27,7 @@ install-module -modulename {{ site.title }} -scope currentuser
 
 Copy the module manuall1
 
-```
+```powershell
 Copy the mediant.psm1/mediant.psd1/license.txt files to a "Mediant" folder into one of the following folders
  * `%userprofile%\Documents\WindowsPowerShell\Modules\WordDoc`
  * `%windir%\System32\WindowsPowerShell\v1.0\Modules\WordDoc`
@@ -38,10 +38,10 @@ Copy the mediant.psm1/mediant.psd1/license.txt files to a "Mediant" folder into 
 Once you have installed the module you can now Manage Audiocodes Mediant devices from powershell
 
 ```powershell
+
 Import-Module mediant
-
-
-
+$credential = get-credential
+get-mediantdevicelicense -mediant $mediant -http https -credential $credential
 
 ```
 
