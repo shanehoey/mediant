@@ -1,6 +1,6 @@
 ---
-title: "About Mediant PowerShell Module"
-excerpt: "About Mediant PowerShell Module"
+title: "About"
+excerpt: "Mediant Powershell Module"
 layout: splash
 ---
 

@@ -1,12 +1,8 @@
 ---
 title: "Getting Started"
-excerpt: "Getting Started with managing a AudioCodes Mediant Device with Windows PowerShell"
+excerpt: "Mediant Powershell Module"
 layout: splash
-header:
-  cta_label: "<i class="fab fa-github"></i> View on Github"
-  cta_url: "https://github.com/shanehoey/mediant/"
 ---
-
 
 ## Latest Release
 
