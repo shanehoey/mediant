@@ -24,7 +24,7 @@ $credential = Get-credential
 $mediantdevice = get-mediantdevice -mediant 192.168.10.1 -http https -credential $credential
 get-mediantdeviceinifile -mediantdevice $mediantdevice
 restart-mediantdevice -mediantdevice $mediantdevice
-
+```
 
 ### Pre-requisites
  - PowerShell 3.0
