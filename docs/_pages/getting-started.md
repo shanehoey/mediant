@@ -4,13 +4,20 @@ excerpt: "Mediant Powershell Module"
 layout: splash
 ---
 
+This PowerShell module enables you to **perform basic management of a AudioCodes Mediant device directly from Powershell**. The only prequisites are that you have PowerShell v4.
+
 ## Latest Release
 
-The latest release of this project is hosted on 
+The latest release of this project is hosted on [PowerShell Gallery](https://www.powershellgallery.com/packages/mediant/)
+
 {{ site.btn_poshgal }}
 
-This development version of this project is hosted on 
-{{ site.btn_github }} {{ site.btn_github_watch }} {{ site.btn_github_fork }} {{ site.btn_github_star }}
+This development version of this project is hosted on [GitHub](https://www.github.com/shanehoey/WordDoc/)
+
+{{ site.btn_github }}
+{{ site.btn_github_watch }}
+{{ site.btn_github_fork }}
+{{ site.btn_github_star }}
 
 ## Install latest release from PowerShell Gallery (Powershell v5)
 
