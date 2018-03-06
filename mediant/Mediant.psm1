@@ -182,7 +182,7 @@ Function Test-MediantDevice
       $Parameters.Credential  = $Credential
     }
     $Parameters.Method      = 'Get'
-    $Parameters.Action      = '/api'
+    $Parameters.Action      = '/api/'
 
     try 
     {
