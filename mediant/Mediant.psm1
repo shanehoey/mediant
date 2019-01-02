@@ -927,12 +927,111 @@ Function Get-MediantDeviceFileIni
   }
 }
 
+
+Function Get-MediantDeviceFileCliScript 
+{
+  [CmdletBinding(DefaultParameterSetName = 'MediantDeviceFull', SupportsShouldProcess = $true, ConfirmImpact = 'medium')]
+  
+  param(
+    [Parameter(Mandatory = $true, ParameterSetName = 'MediantDeviceFull',Position = 0)]
+    [Parameter(Mandatory = $true, ParameterSetName = 'MediantDeviceIncremental',Position = 0)]
+    [MediantDevice]$MediantDevice, 
+    
+    [Parameter(Mandatory = $true, ParameterSetName = 'MediantFull',Position = 0)]
+    [Parameter(Mandatory = $true, ParameterSetName = 'MediantIncremental',Position = 0)]
+    [string]$Mediant,
+
+    [Parameter(Mandatory = $true, ParameterSetName = 'MediantFullCli',Position = 1)]
+    [Parameter(Mandatory = $true, ParameterSetName = 'MediantIncremental',Position = 1)]
+    [pscredential]$Credential,
+   
+    [Parameter(Mandatory = $true, ParameterSetName = 'MediantFull',Position = 2)]
+    [Parameter(Mandatory = $true, ParameterSetName = 'MediantIncremental',Position = 2)]
+    [ValidateSet('http', 'https')]
+    [string]$http,
+    
+    [Parameter(Mandatory = $true, ParameterSetName = 'MediantDeviceFull',Position = 1)]
+    [Parameter(Mandatory = $true, ParameterSetName = 'MediantFull',Position = 3)]
+    [Parameter(Mandatory = $true, ParameterSetName = 'MediantDeviceIncremental',Position = 1)]
+    [Parameter(Mandatory = $true, ParameterSetName = 'MediantIncremental',Position = 3)]
+    [ValidateSet('Full', 'Incremental')]
+    [String]$FileType,
+   
+    
+    [Parameter(Mandatory = $true, ParameterSetName = 'MediantDeviceFull',Position = 2)]
+    [Parameter(Mandatory = $true, ParameterSetName = 'MediantFull',Position = 4)]
+    [Parameter(Mandatory = $true, ParameterSetName = 'MediantDeviceIncremental',Position = 2)]
+    [Parameter(Mandatory = $true, ParameterSetName = 'MediantIncremental',Position = 4)]
+    [String]$file
+    
+        
+    
+  )
  
+
+  Begin
+  {
+    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
+    if($PSBoundParameters.MediantDevice)
+    {
+      $Mediant     = $MediantDevice.Mediant
+      $Credential  = $MediantDevice.Credential
+      $http        = $MediantDevice.http
+    }   
+
+    $Parameters            = @{ }        
+    $Parameters.mediant    = $Mediant    
+    $Parameters.action     = '/api/v1/files/cliScript'
+    
+    if($PSBoundParameters.MediantDeviceFull)         
+    {
+      $Parameters.action  = '/api/v1/files/cliScript'
+    }
+    if($PSBoundParameters.MediantDeviceIncremental)  
+    {
+      $Parameters.action  = '/api/v1/files/cliScript/incremental'
+    }
+    if($PSBoundParameters.MediantFull)               
+    {
+      $Parameters.action  = '/api/v1/files/cliScript'
+    }
+    if($PSBoundParameters.MediantIncremental)        
+    {
+      $Parameters.action  = '/api/v1/files/cliScript/incremental'
+    }
+    
+    $Parameters.credential = $Credential
+    $Parameters.method     = 'put'
+    $Parameters.http       = $http
+
+  }    
+ 
+  Process
+  {
+    if ($pscmdlet.ShouldProcess("$Mediant"))
+    {
+      if (Test-MediantDevice -Mediant $Mediant -Credential $Credential -http $http)
+      {
+        $Result = (Invoke-MediantWebRequest @Parameters)
+        return $Result     
+      }
+      Else
+      {
+        return $null
+      }   
+    }
+  }
+}
+
+
+
+
+
 # SIG # Begin signature block
 # MIINCgYJKoZIhvcNAQcCoIIM+zCCDPcCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUolujQUtsHP9tYfqPue+FYNZk
-# +X+gggpMMIIFFDCCA/ygAwIBAgIQDq/cAHxKXBt+xmIx8FoOkTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUPU825Y8rGM+4EqtZQPOqnK1A
+# TL6gggpMMIIFFDCCA/ygAwIBAgIQDq/cAHxKXBt+xmIx8FoOkTANBgkqhkiG9w0B
 # AQsFADByMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYD
 # VQQLExB3d3cuZGlnaWNlcnQuY29tMTEwLwYDVQQDEyhEaWdpQ2VydCBTSEEyIEFz
 # c3VyZWQgSUQgQ29kZSBTaWduaW5nIENBMB4XDTE4MDEwMzAwMDAwMFoXDTE5MDEw
@@ -992,11 +1091,11 @@ Function Get-MediantDeviceFileIni
 # Q2VydCBTSEEyIEFzc3VyZWQgSUQgQ29kZSBTaWduaW5nIENBAhAOr9wAfEpcG37G
 # YjHwWg6RMAkGBSsOAwIaBQCgeDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkG
 # CSqGSIb3DQEJAzEMBgorBgEEAYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEE
-# AYI3AgEVMCMGCSqGSIb3DQEJBDEWBBQ+tfOvcinzU0nhPutK2DfHbgw7jDANBgkq
-# hkiG9w0BAQEFAASCAQB87s4po/DYYaj1rhihn49NAp5WEwKuemzg7IKQWeXYAECd
-# GaSonca75oMut8EVdmnnlMqOgi+DlkZGPS+c8V/TWgYB5HGwuMtawVzE13GbCqxn
-# mM25ccjhUDJxro4fwE8wEFKayoeMwhtUIaj5QKCfp3kWa6MDcdvpUfVNwyBzWTIP
-# 8I/+Iu0RHfCL0jm+JtkwEQpzzCh7L7MNZIfFWvmlqUU+qOGp1Biqa6jDUvP7Wu11
-# x1Vdqrw102L37euTUtdvwmuLZr0CG25AfSMrsma/uVQveQrsazq3m3y9oROorS5p
-# 8BaOd3jSoAVAeFcNuaIL2HcdEINFCuK5VUBpx2ta
+# AYI3AgEVMCMGCSqGSIb3DQEJBDEWBBQ4AbqIArDEn2D6xC5aUnNMSvZtKzANBgkq
+# hkiG9w0BAQEFAASCAQAkOzwkFDUDAyJx1o2UOR2thpwm0izBtscCO2fohPUH6kdH
+# EqWSZEMkRC17Bnc2Cd1z4+A9ppeB6axdXZ42H+53rsazjMNW2gVyNnFtJaDWhFQ6
+# A3J35/RwerQup8IvwXievIokVyi4XOIzfIRxxAvZ+wEOA85Zc69pEn44/eggqIIc
+# MMCp2WU8Gmz6wubAxUUnNoqNNDrP+lvdV9ZWcBp4cmSxtnyOtfugnJGbuEzUZObR
+# entNYGBSJeEQLYZY6doG9lys33+H8kiV/zfo3FCZpm10f0pzZHjxuyNFmHoeXMx/
+# vkIzMnjxDFGlfipbSZy3DjrkUeN3hpcjob+V1wyW
 # SIG # End signature block

@@ -9,7 +9,7 @@ $cert = Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert
 $cert | format-table subject,issuer
 $cert
 
-$version = "1.0.1"
+$version = "2.0.0"
 
 Update-ModuleManifest -Path ".\mediant\mediant.psd1" -ModuleVersion $version -FunctionsToExport "Get-MediantDevice","Get-MediantDeviceAlarm","Get-MediantDeviceFileCliScript","Get-MediantDeviceFileIni","Get-MediantDeviceLicense","Get-MediantDevicePerformanceMonitoring","Get-MediantDeviceStatus","Restart-MediantDevice","Save-MediantDevice","Test-MediantDevice" 
 

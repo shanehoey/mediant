@@ -7,7 +7,7 @@ title: "History"
 | Version      | Date          | Details                              | 
 |:---------    |:------        |:-----------------                    | 
 | 2.0.0        | January 2019  | Breaking Change - see Below          | 
-| 1.0.1        |March 2018     | Updated Cert                         | 
+| 1.0.1        | March 2018    | Updated Cert                         | 
 | 1.0.0        | Jan 2016      | Major Realease                       | 
 | 0.0.16.1212  | 2016          | Inital Script Concept                | 
 
