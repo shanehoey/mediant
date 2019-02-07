@@ -11,7 +11,7 @@ $cert
 
 $version = "2.0.0"
 
-Update-ModuleManifest -Path ".\mediant\mediant.psd1" -ModuleVersion $version -FunctionsToExport "Get-MediantDevice","Get-MediantDeviceAlarm","Get-MediantDeviceFileCliScript","Get-MediantDeviceFileIni","Get-MediantDeviceLicense","Get-MediantDevicePerformanceMonitoring","Get-MediantDeviceStatus","Restart-MediantDevice","Save-MediantDevice","Test-MediantDevice" 
+Update-ModuleManifest -Path ".\mediant\mediant.psd1" -ModuleVersion $version #-FunctionsToExport "Get-MediantDevice","Get-MediantDeviceAlarm","Get-MediantDeviceFileCliScript","Get-MediantDeviceFileIni","Get-MediantDeviceLicense","Get-MediantDevicePerformanceMonitoring","Get-MediantDeviceStatus","Restart-MediantDevice","Save-MediantDevice","Test-MediantDevice" 
 
 Set-AuthenticodeSignature -filepath ".\mediant\mediant.psd1" -Certificate $cert
 (Get-AuthenticodeSignature -FilePath ".\mediant\mediant.psd1").Status
