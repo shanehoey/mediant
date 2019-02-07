@@ -1,6 +1,6 @@
 ﻿#requires -Version 5.0
 <#
-    Copyright (c) 2016-2018 Shane Hoey
+    Copyright (c) 2016-2019 Shane Hoey
 
     Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -37,15 +37,30 @@ class MediantDevice {
   [string]$Mediant
   [pscredential]$Credential
   [ValidateSet('http','https')]
-  [string]$http
+  [string]$http = 'https'
 
-  MediantDevice ([string]$Mediant,[pscredential]$Credential,[string]$http) 
+  MediantDevice ([string]$mediant,[string]$http,[pscredential]$Credential) 
   {
-    $this.Mediant     = $Mediant
-    $this.Credential  = $Credential
+    $this.mediant     = $mediant
     $this.http        = $http
+    $this.credential  = $credential
   }
 }
+
+class MediantAuthToken {
+  [string]$mediant
+  [string]$authtoken
+  [ValidateSet('http','https')]
+  [string]$http = 'https'
+
+  MediantDevice ([string]$mediant,[string]$http,[string]$authtoken) 
+  {
+    $this.mediant     = $mediant
+    $this.http        = $http
+    $this.authtoken   = $authtoken
+  }
+}
+
 
 class MediantStatus {
   [string]$Mediant
@@ -109,6 +124,83 @@ Function Invoke-MediantWebRequest
     }
   }
 }
+
+function Connect-MediantDevice
+{
+  [CmdletBinding(DefaultParameterSetName = 'MediantDevice', SupportsShouldProcess = $true, ConfirmImpact = 'medium')]
+  Param
+  (
+    [Parameter(Mandatory = $true, ParameterSetName = 'MediantDevice')]
+    [MediantDevice]$MediantDevice,
+      
+    [Parameter(Mandatory = $true, ParameterSetName = 'Mediant')]
+    [string]$Mediant,
+  
+    [Parameter(Mandatory = $true, ParameterSetName = 'Mediant')]
+    [pscredential]$Credential,
+          
+    [Parameter(Mandatory = $true, ParameterSetName = 'Mediant')]
+    [ValidateSet('http', 'https')]
+    [string]$http = 'https',
+
+    [Parameter(Mandatory = $false, ParameterSetName = 'MediantDevice')]
+    [Parameter(Mandatory = $false, ParameterSetName = 'Mediant')]
+    [ValidateSet('admin', 'operator','monitor')]
+    [string]$privlevel = 'monitor',
+
+    [Parameter(Mandatory = $false, ParameterSetName = 'MediantDevice')]
+    [Parameter(Mandatory = $false, ParameterSetName = 'Mediant')]
+    [int]$sessionTimeout =  900
+
+  )
+  
+  Process {
+    $Parameters             = @{}
+    if($PSBoundParameters.MediantDevice) 
+    {
+      $Parameters.Mediant     = $MediantDevice.Mediant
+      $Parameters.Http        = $MediantDevice.http
+      $Parameters.Credential  = $MediantDevice.Credential
+      
+    }  
+    else 
+    {
+      $Parameters.Mediant     = $Mediant
+      $Parameters.Http        = $http
+      $Parameters.Credential  = $Credential
+    }
+    $Parameters.Method      = 'POST' 
+    $Parameters.action     = '/api/v1/actions/authToken'
+    $json = @{ }
+    if($PSBoundParameters.username) 
+    {
+      $json.username     = $PSBoundParameters.username
+    }
+    else 
+    {
+      $json.username     = $PSBoundParameters.Credential.username
+    }
+    $json.privLevel      = $PSBoundParameters.privLevel
+    $json.sessionTimeout = $PSBoundParameters.sessionTimeout
+    $Parameters.body       = ConvertTo-Json -InputObject $json 
+
+
+    try 
+    { 
+      $parameters
+      $Result = Invoke-MediantWebRequest @Parameters
+      $json = ConvertFrom-Json -InputObject $Result.content
+      $json
+    }
+    catch 
+    {
+      Write-Warning -Message "[Error] - $_.Exception"
+      $null
+    }
+    
+  }
+}
+ 
 
 
 Function Get-MediantDevice 
@@ -1030,8 +1122,8 @@ Function Get-MediantDeviceFileCliScript
 # SIG # Begin signature block
 # MIINCgYJKoZIhvcNAQcCoIIM+zCCDPcCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUPU825Y8rGM+4EqtZQPOqnK1A
-# TL6gggpMMIIFFDCCA/ygAwIBAgIQDq/cAHxKXBt+xmIx8FoOkTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUpspShAI6HJpJVbMVRkWu65CD
+# M7ygggpMMIIFFDCCA/ygAwIBAgIQDq/cAHxKXBt+xmIx8FoOkTANBgkqhkiG9w0B
 # AQsFADByMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYD
 # VQQLExB3d3cuZGlnaWNlcnQuY29tMTEwLwYDVQQDEyhEaWdpQ2VydCBTSEEyIEFz
 # c3VyZWQgSUQgQ29kZSBTaWduaW5nIENBMB4XDTE4MDEwMzAwMDAwMFoXDTE5MDEw
@@ -1091,11 +1183,11 @@ Function Get-MediantDeviceFileCliScript
 # Q2VydCBTSEEyIEFzc3VyZWQgSUQgQ29kZSBTaWduaW5nIENBAhAOr9wAfEpcG37G
 # YjHwWg6RMAkGBSsOAwIaBQCgeDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkG
 # CSqGSIb3DQEJAzEMBgorBgEEAYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEE
-# AYI3AgEVMCMGCSqGSIb3DQEJBDEWBBQ4AbqIArDEn2D6xC5aUnNMSvZtKzANBgkq
-# hkiG9w0BAQEFAASCAQAkOzwkFDUDAyJx1o2UOR2thpwm0izBtscCO2fohPUH6kdH
-# EqWSZEMkRC17Bnc2Cd1z4+A9ppeB6axdXZ42H+53rsazjMNW2gVyNnFtJaDWhFQ6
-# A3J35/RwerQup8IvwXievIokVyi4XOIzfIRxxAvZ+wEOA85Zc69pEn44/eggqIIc
-# MMCp2WU8Gmz6wubAxUUnNoqNNDrP+lvdV9ZWcBp4cmSxtnyOtfugnJGbuEzUZObR
-# entNYGBSJeEQLYZY6doG9lys33+H8kiV/zfo3FCZpm10f0pzZHjxuyNFmHoeXMx/
-# vkIzMnjxDFGlfipbSZy3DjrkUeN3hpcjob+V1wyW
+# AYI3AgEVMCMGCSqGSIb3DQEJBDEWBBQqUshoLanll9tpXQ7Fg/oyaRL5MjANBgkq
+# hkiG9w0BAQEFAASCAQAOyXq5YHJy65kbE1m2rPFLKtawVuQulkYaSVizohohW9kP
+# NxnqXmOQeQCKfhYEqB3kFmcmSXTQbFznHkl5R9ZCNum2G+ogtZbgo68WuLwJW51K
+# UcyGnEeYSYVloIOHq7c3qHFJVePygMydIavKWfaPCsHGr/oTsc7oTy4jy+G9K+xZ
+# Rs5CUxcPK2N2tMU00GkFKhFhBBWAYlKgpXKnSwoxVdGZ1etDehT5dpz9nMEIo94u
+# M6zeG0nmAtfRthaAMtMXI7Js4lGWBrVK1rsLWhnuKTpkzphRwtR8Z/Yi9CXKSKIz
+# 8ObPcOxausSZC38XYoze9tzmwsmfFuXGe5WFCOqf
 # SIG # End signature block
