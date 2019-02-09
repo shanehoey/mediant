@@ -1,12 +1,12 @@
 [
-    {
-      "fqdn": "sbc1.aclearning.com.au",
-      "username": "Admin",
-      "password": ""
-    },
-    {
-      "fqdn": "sbc1.aclearning.com.au",
-      "username": "Admin",
-      "password": ""
-    }
+  {
+    "mediant": "sbc1.aclearning.com.au",
+    "username": "Admin",
+    "password": ""
+  },
+  {
+    "mediant": "sbc2.aclearning.com.au",
+    "username": "Admin",
+    "password": ""
+  }
 ]
