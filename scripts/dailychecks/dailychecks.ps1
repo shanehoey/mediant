@@ -24,5 +24,5 @@ foreach ($mediant in $mediantdevices) {
     $script = "show voip register-account"
     $output += (Invoke-MediantCurlRequest -Mediant $mediant.fqdn -Credential $mediant.credential -script $script) 
     $filename = "daily_$($mediant.fqdn).txt"
-    out-file -filepath (daily.txt -Encoding ascii -
+    out-file -filepath $filename
 }
