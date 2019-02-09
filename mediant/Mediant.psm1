@@ -8,6 +8,20 @@
 
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #>
+param(
+    [parameter(Position=0,Mandatory=$false)][boolean]$Stats=$true
+)
+
+write-verbose "'mediant PowerShell Module' hosted at https://github.com/shanehoey/mediant/ please contribute/review" -Verbose
+if ($stats) {
+  try 
+  {
+    #for usage stats only, only reporting on page views
+    # to disable use import-module mediant -argumentlist $false instead 
+    Invoke-WebRequest -Uri https://api.shanehoey.com/stats/mediant/  -TimeoutSec 2 
+  }
+  catch {}
+}
 
 class MediantWebRequest {
   [string]$Mediant
@@ -39,28 +53,23 @@ class MediantDevice {
   [ValidateSet('http','https')]
   [string]$http = 'https'
 
+  MediantDevice () { }
+
   MediantDevice ([string]$mediant,[string]$http,[pscredential]$Credential) 
   {
     $this.mediant     = $mediant
     $this.http        = $http
     $this.credential  = $credential
   }
-}
 
-class MediantAuthToken {
-  [string]$mediant
-  [string]$authtoken
-  [ValidateSet('http','https')]
-  [string]$http = 'https'
-
-  MediantDevice ([string]$mediant,[string]$http,[string]$authtoken) 
+  MediantDevice ([string]$mediant,[pscredential]$Credential) 
   {
     $this.mediant     = $mediant
-    $this.http        = $http
-    $this.authtoken   = $authtoken
+    $this.credential  = $credential
+    $this.http        = 'http'
   }
-}
 
+}
 
 class MediantStatus {
   [string]$Mediant
@@ -77,30 +86,33 @@ class MediantStatus {
   }
 }
 
-
 Function Invoke-MediantWebRequest 
 {
-  [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'medium')]
+  [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "medium",  DefaultParameterSetName = "default")]
   param(
-    [Parameter(Mandatory = $true)]
+    [Parameter(Mandatory = $true,  ParameterSetName='default')]
     [string]$Mediant,
   
-    [Parameter(Mandatory = $true)]
+    [Parameter(Mandatory = $true,  ParameterSetName='default')]
     [pscredential]$Credential,
-  
-    [Parameter(Mandatory = $true)]
-    [ValidateSet('http', 'https')]
-    [string]$http,
    
-    [Parameter(Mandatory = $true)]
-    [ValidateSet('Get', 'Put','Post','Delete')]
-    [string]$Method,
-      
-    [Parameter(Mandatory = $true)]
+    [Parameter(Mandatory = $true,  ParameterSetName='default')]
     [string]$Action,
+
+    [Parameter(Mandatory = $false,  ParameterSetName='default')]
+    [ValidateSet('Get', 'Put','Post','Delete')]
+    [string]$Method = 'Get',
+
+    [Parameter(Mandatory = $false,  ParameterSetName='default')]
+    [ValidateSet('http', 'https')]
+    [string]$http = 'https',
       
-    [Parameter(Mandatory = $false)]
-    $Body
+    [Parameter(Mandatory = $false,  ParameterSetName='default')]
+    $Body,
+
+    [Parameter(Mandatory = $false,  ParameterSetName='default')]
+    [switch]$SkipCertificateCheck
+
   )
   
   Process { 
@@ -114,7 +126,29 @@ Function Invoke-MediantWebRequest
     }
     try 
     { 
-      $Response = Invoke-WebRequest @Parameters -ErrorAction Stop 
+
+      if ($psboundparameters.SkipCertificateCheck) 
+      { 
+          Switch ($PSEdition)
+          {
+              "Desktop"
+              {   
+                  Write-Verbose "PSEdition Desktop"
+                  if (!(test-ipphonetrustcertpolicy)) { write-warning "As a workaround to SSL cert run set-ipphonetrustallcertpolicy before continuing" -WarningAction Stop }  
+                  $Response = Invoke-WebRequest @parameters -useragent "Mediant PowerShell/$($psversiontable.psedition)/$($psversiontable.psversion)" -ErrorAction Stop 
+              }
+              "Core"
+              {
+                  Write-Verbose "PSEdition Core"
+                  $Response = Invoke-WebRequest @parameters -useragent "Mediant PowerShell/$($psversiontable.psedition)/$($psversiontable.psversion)" -skipcertificatecheck -ErrorAction Stop 
+              }
+          }
+      }
+      else 
+      {
+          $Response = Invoke-WebRequest @parameters -ErrorAction Stop 
+      }
+ 
       [MediantWebRequest]::new($Mediant,$Response.StatusCode,$Response.StatusDescription,$Response.rawcontent,$Response.content )
     }
     catch 
@@ -125,100 +159,106 @@ Function Invoke-MediantWebRequest
   }
 }
 
-function Connect-MediantDevice
+Function Invoke-MediantCurlRequest
 {
-  [CmdletBinding(DefaultParameterSetName = 'MediantDevice', SupportsShouldProcess = $true, ConfirmImpact = 'medium')]
-  Param
-  (
-    [Parameter(Mandatory = $true, ParameterSetName = 'MediantDevice')]
-    [MediantDevice]$MediantDevice,
-      
-    [Parameter(Mandatory = $true, ParameterSetName = 'Mediant')]
+  [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "medium",  DefaultParameterSetName = "file")]
+  param(
+    [Parameter(Mandatory = $true,  ParameterSetName='file')]
+    [Parameter(Mandatory = $true,  ParameterSetName='script')]
     [string]$Mediant,
   
-    [Parameter(Mandatory = $true, ParameterSetName = 'Mediant')]
+    [Parameter(Mandatory = $true,  ParameterSetName='file')]
+    [Parameter(Mandatory = $true,  ParameterSetName='script')]
     [pscredential]$Credential,
-          
-    [Parameter(Mandatory = $true, ParameterSetName = 'Mediant')]
+  
+    [Parameter(Mandatory = $false,  ParameterSetName='file')]
+    [Parameter(Mandatory = $false,  ParameterSetName='script')]
     [ValidateSet('http', 'https')]
-    [string]$http = 'https',
+    [string]$http = "https",
+   
+    [Parameter(Mandatory = $true,  ParameterSetName='file')]
+    [Validatescript({test-path -path $_ })]
+    [string]$filePath,
 
-    [Parameter(Mandatory = $false, ParameterSetName = 'MediantDevice')]
-    [Parameter(Mandatory = $false, ParameterSetName = 'Mediant')]
-    [ValidateSet('admin', 'operator','monitor')]
-    [string]$privlevel = 'monitor',
+    [Parameter(Mandatory = $true,  ParameterSetName='script')]
+    [string]$script,
 
-    [Parameter(Mandatory = $false, ParameterSetName = 'MediantDevice')]
-    [Parameter(Mandatory = $false, ParameterSetName = 'Mediant')]
-    [int]$sessionTimeout =  900
 
+    [Parameter(Mandatory = $false,  ParameterSetName='file')]
+    [Parameter(Mandatory = $false,  ParameterSetName='script')]
+    [string]$Action = "/api/v1/files/cliScript/incremental",
+
+    [Parameter(Mandatory = $false,  ParameterSetName='file')]
+    [Parameter(Mandatory = $false,  ParameterSetName='script')]
+    [ValidateSet('PUT')]
+    [string]$Method = "PUT"
+      
   )
   
-  Process {
-    $Parameters             = @{}
-    if($PSBoundParameters.MediantDevice) 
-    {
-      $Parameters.Mediant     = $MediantDevice.Mediant
-      $Parameters.Http        = $MediantDevice.http
-      $Parameters.Credential  = $MediantDevice.Credential
-      
-    }  
-    else 
-    {
-      $Parameters.Mediant     = $Mediant
-      $Parameters.Http        = $http
-      $Parameters.Credential  = $Credential
-    }
-    $Parameters.Method      = 'POST' 
-    $Parameters.action     = '/api/v1/actions/authToken'
-    $json = @{ }
-    if($PSBoundParameters.username) 
-    {
-      $json.username     = $PSBoundParameters.username
-    }
-    else 
-    {
-      $json.username     = $PSBoundParameters.Credential.username
-    }
-    $json.privLevel      = $PSBoundParameters.privLevel
-    $json.sessionTimeout = $PSBoundParameters.sessionTimeout
-    $Parameters.body       = ConvertTo-Json -InputObject $json 
-
-
+  Process 
+  { 
     try 
     { 
-      $parameters
-      $Result = Invoke-MediantWebRequest @Parameters
-      $json = ConvertFrom-Json -InputObject $Result.content
-      $json
+      curl.exe --help | Out-Null
     }
-    catch 
+    catch
     {
-      Write-Warning -Message "[Error] - $_.Exception"
-      $null
+      Write-Warning "Curl not installed, install curl or upgrade to Windows 10"
+      break
     }
-    
+
+    if($script) {
+      $tmp = New-TemporaryFile
+      $script | out-file -filepath $tmp.FullName  -Encoding ASCII 
+      $path = $tmp.FullName
+    }
+    else
+    {
+      $path = (get-item $filepath).fullname
+    }
+    $uri  = "$($http)://$($Mediant)$($Action)"
+    curl.exe --request "$($Method)" --form "file=@$($path)" --header "Expect:" --user "$($credential.username):$($credential.GetNetworkCredential().password)" $uri 
+  
+    if($script) {
+      remove-item -Path $tmp.fullname -force
+    }
   }
+
 }
- 
 
 
 Function Get-MediantDevice 
 {
-  [CmdletBinding()]
+  [CmdletBinding(DefaultParameterSetName = 'credential')] 
   param(
-    [Parameter(Mandatory = $true, ParameterSetName = 'Mediant',Position = 0)]
+
+    [Parameter(Mandatory = $true, ParameterSetName = 'username',   Position = 0)]
+    [Parameter(Mandatory = $true, ParameterSetName = 'credential', Position = 0)]
     [string]$Mediant,
 
-    [Parameter(Mandatory = $true, ParameterSetName = 'Mediant',Position = 1)]
+
+    [Parameter(Mandatory = $true, ParameterSetName = 'credential',Position = 1)]
     [pscredential]$Credential,
    
-    [Parameter(Mandatory = $true, ParameterSetName = 'Mediant',Position = 2)]
+    [Parameter(Mandatory = $true, ParameterSetName = 'username',Position = 1)]
+    [string]$username,
+   
+    [Parameter(Mandatory = $true, ParameterSetName = 'username',Position = 2)]
+    [securestring]$password,
+
+    [Parameter(Mandatory = $false, ParameterSetName = 'username',   Position = 3)]
+    [Parameter(Mandatory = $false, ParameterSetName = 'credential', Position = 2)]
     [ValidateSet('http', 'https')]
-    [string]$http
+    [string]$http = "https"
+
   )
 
   process {
+
+    if($username) {
+      [pscredential]$Credential = New-Object System.Management.Automation.PSCredential -ArgumentList $username,$password
+    }
+
     $Parameters             = @{ }
     $Parameters.Mediant     = $Mediant
     $Parameters.Credential  = $Credential
@@ -226,7 +266,7 @@ Function Get-MediantDevice
 
     if (Test-MediantDevice @Parameters) 
     {
-      Return ([mediantdevice]::new($Mediant,$Credential,$http))
+      Return ([mediantdevice]::new($Mediant,$http,$Credential))
     }
     else 
     {
@@ -235,6 +275,78 @@ Function Get-MediantDevice
 
   }
 }
+
+function Set-MediantTrustAllCertPolicy 
+{
+    [CmdletBinding(SupportsShouldProcess = $true,  ConfirmImpact = 'High' )]
+    param()
+    
+    #Exist when core detected 
+    if ($PSEdition -eq "Core")
+    {
+        Write-Warning "PowerShell Core should only use the -SkipCertificateCheck Parameter" -WarningAction Continue
+    }
+    else
+    {   
+        if (([System.Net.ServicePointManager]::SecurityProtocol).tostring() -notlike "*Tls12*" ) 
+        {
+            Write-Warning "Set TLS1.2 as default Security Protocol to current shell"  -WarningAction Continue
+            [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]'Tls12'
+            $settls = $true
+        }
+        
+        if (([System.Net.ServicePointManager]::CertificatePolicy).GetType().name -eq "DefaultCertPolicy") 
+        { 
+            Write-Warning "Added TrustAllCertsPolicy to current shell"  -WarningAction Continue
+            Add-Type -TypeDefinition @"
+using System.Net;
+using System.Security.Cryptography.X509Certificates;
+public class TrustAllCertsPolicy : ICertificatePolicy {
+    public bool CheckValidationResult(
+        ServicePoint srvPoint, X509Certificate certificate,
+        WebRequest request, int certificateProblem) {
+        return true;
+    }
+}
+"@
+            [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
+            $setcert = $true
+           
+        }
+
+        if ($settls -or $setcert) { Write-Warning "Exit PowerShell to revert these changes" -WarningAction Continue }
+    
+    }
+}
+
+
+function Test-mediantTrustCertPolicy 
+{
+    [CmdletBinding(DefaultParameterSetName = 'Mediant', SupportsShouldProcess = $true, ConfirmImpact = 'medium')]
+    param(
+
+        [Parameter(Mandatory = $true,    ParameterSetName = 'mediant' )]
+        [string]$mediant,
+
+        [Parameter(Mandatory = $true,    ParameterSetName = 'mediantdevice' )]
+        [string]$mediantdevice
+    )
+      
+    if($mediantdevice) { $mediant = $mediantdevice.Mediant }
+
+    try 
+    {
+        $result = Invoke-WebRequest -uri "https://$mediant/" -UseBasicParsing 
+        if ($result.statuscode -eq "200") {$true} else {$false}
+          #do I need to add 203
+    }
+    catch 
+    {
+        $false
+    }
+
+}
+
 
 
 Function Test-MediantDevice 
@@ -250,9 +362,9 @@ Function Test-MediantDevice
     [Parameter(Mandatory = $true, ParameterSetName = 'Mediant',Position = 1)]
     [pscredential]$Credential,
    
-    [Parameter(Mandatory = $true, ParameterSetName = 'Mediant',Position = 2)]
+    [Parameter(Mandatory = $false, ParameterSetName = 'Mediant',Position = 2)]
     [ValidateSet('http', 'https')]
-    [string]$http,
+    [string]$http = 'https',
 
     [Parameter(Mandatory = $false, ParameterSetName = 'MediantDevice')]
     [Parameter(Mandatory = $false, ParameterSetName = 'Mediant')]
@@ -260,7 +372,7 @@ Function Test-MediantDevice
   )
   Process { 
 
-    $Parameters             = @{ }
+    $Parameters             = @{}
     if($PSBoundParameters.MediantDevice) 
     {
       $Parameters.Mediant     = $MediantDevice.Mediant
@@ -273,7 +385,7 @@ Function Test-MediantDevice
       $Parameters.Http        = $http
       $Parameters.Credential  = $Credential
     }
-    $Parameters.Method      = 'Get'
+    $Parameters.Method      = "Get"
     $Parameters.Action      = '/api/'
 
     try 
@@ -294,7 +406,7 @@ Function Test-MediantDevice
     catch [System.Net.WebException] 
     {
       Write-Warning -Message "[Error] - $_"
-      $false     
+      $false
     }
   }
 }
@@ -323,7 +435,7 @@ Function Restart-MediantDevice
     [Parameter(Mandatory = $true, ParameterSetName = 'MediantTimeoutSeconds')]
     [Parameter(Mandatory = $true, ParameterSetName = 'MediantTimeoutImmediate')]
     [ValidateSet('http', 'https')]
-    [string]$http,    
+     [string]$http = 'https',    
 
     [Parameter(Mandatory = $true, ParameterSetName = 'MediantDeviceTimeoutGraceful')]
     [Parameter(Mandatory = $true, ParameterSetName = 'MediantDeviceTimeoutSeconds')]
@@ -409,7 +521,7 @@ Function Save-MediantDevice
     [Parameter(Mandatory = $true, ParameterSetName = 'Mediant')]
     [pscredential]$Credential,
         
-    [Parameter(Mandatory = $true, ParameterSetName = 'Mediant')]
+    [Parameter(Mandatory = $false, ParameterSetName = 'Mediant')]
     [ValidateSet('http', 'https')]
     [string]$http 
   )
@@ -477,9 +589,9 @@ Function Get-MediantDeviceStatus
     [Parameter(Mandatory = $true, ParameterSetName = 'Mediant')]
     [pscredential]$Credential,
         
-    [Parameter(Mandatory = $true, ParameterSetName = 'Mediant')]
+    [Parameter(Mandatory = $false, ParameterSetName = 'Mediant')]
     [ValidateSet('http', 'https')]
-    [string]$http
+    [string]$http = "https"
   )
 
   Process {
@@ -530,6 +642,72 @@ Function Get-MediantDeviceStatus
 }
 
 
+Function start-MediantWebGui 
+{
+  [CmdletBinding(DefaultParameterSetName = 'MediantDevice', SupportsShouldProcess = $true, ConfirmImpact = 'medium')]
+  Param
+  (
+    [Parameter(Mandatory = $true, ParameterSetName = 'MediantDevice')]
+    [MediantDevice]$MediantDevice,
+    
+    [Parameter(Mandatory = $true, ParameterSetName = 'Mediant')]
+    [string]$Mediant,
+
+    [Parameter(Mandatory = $true, ParameterSetName = 'Mediant')]
+    [pscredential]$Credential,
+        
+    [Parameter(Mandatory = $false, ParameterSetName = 'Mediant')]
+    [ValidateSet('http', 'https')]
+    [string]$http = "https",
+
+    [Parameter(Mandatory = $false, ParameterSetName = 'Mediant')]
+    [Parameter(Mandatory = $false, ParameterSetName = 'Mediantdevice')]
+    [ValidateSet('admin', 'operator','monitor')]
+    [string]$privLevel = "monitor",
+
+    [Parameter(Mandatory = $false, ParameterSetName = 'Mediant')]
+    [Parameter(Mandatory = $false, ParameterSetName = 'Mediantdevice')]
+    [int]$sessionTimeout = 30
+  )
+
+  Process {
+    $Parameters             = @{}
+    if($PSBoundParameters.MediantDevice) 
+    {
+      $Parameters.Mediant     = $MediantDevice.Mediant
+      $Parameters.Http        = $MediantDevice.http
+      $Parameters.Credential  = $MediantDevice.Credential
+    }  
+    else 
+    {
+      $Parameters.Mediant     = $Mediant
+      $Parameters.Http        = $http
+      $Parameters.Credential  = $Credential
+    }
+    $Parameters.Method      = 'Post'
+    $Parameters.Action      = '/api/v1/actions/authToken'
+
+    $json = @{ }
+    $json.username = $Parameters.Credential.UserName
+    $json.privLevel = $privLevel
+    $json.sessionTimeout = $sessionTimeout
+    $Parameters.body       = ConvertTo-Json -InputObject $json 
+
+    try 
+    { 
+      $Result = Invoke-MediantWebRequest @Parameters
+      $token  = ($result.content | convertfrom-json).authtoken
+      start-process -filepath "$($Parameters.http)://$($Parameters.mediant)/index.html?mode=web&authToken=$($token)"
+    }
+    catch 
+    {
+      Write-Warning -Message "[Error] - $_.Exception"
+      $null
+    }
+    
+  }
+}
+
 Function Get-MediantDeviceLicense 
 {
   [CmdletBinding(DefaultParameterSetName = 'MediantDevice', SupportsShouldProcess = $true, ConfirmImpact = 'medium')]
@@ -544,9 +722,9 @@ Function Get-MediantDeviceLicense
     [Parameter(Mandatory = $true, ParameterSetName = 'Mediant')]
     [pscredential]$Credential,
           
-    [Parameter(Mandatory = $true, ParameterSetName = 'Mediant')]
+    [Parameter(Mandatory = $false, ParameterSetName = 'Mediant')]
     [ValidateSet('http', 'https')]
-    [string]$http
+    [string]$http ="https"
   )
   
   Process {
@@ -611,11 +789,11 @@ Function Get-MediantDeviceAlarm
     [Parameter(Mandatory = $true, ParameterSetName = 'MediantBefore',Position = 0)]
     [pscredential]$Credential,
         
-    [Parameter(Mandatory = $true, ParameterSetName = 'Mediant',Position = 0)]
-    [Parameter(Mandatory = $true, ParameterSetName = 'MediantAfter',Position = 0)]
-    [Parameter(Mandatory = $true, ParameterSetName = 'MediantBefore',Position = 0)]
+    [Parameter(Mandatory = $false, ParameterSetName = 'Mediant',Position = 0)]
+    [Parameter(Mandatory = $false, ParameterSetName = 'MediantAfter',Position = 0)]
+    [Parameter(Mandatory = $false, ParameterSetName = 'MediantBefore',Position = 0)]
     [ValidateSet('http', 'https')]
-    [string]$http = 'http',
+    [string]$http = 'https',
     
     [Parameter(Mandatory = $false, ParameterSetName = 'MediantDevice',Position = 0)]
     [Parameter(Mandatory = $false, ParameterSetName = 'MediantDeviceBefore',Position = 0)]
@@ -756,10 +934,10 @@ Function Get-MediantDevicePerformanceMonitoring
     [Parameter(Mandatory = $true, ParameterSetName = 'MediantListAvailable')]
     [pscredential]$Credential,
           
-    [Parameter(Mandatory = $true, ParameterSetName = 'MediantSpecific')]
-    [Parameter(Mandatory = $true, ParameterSetName = 'MediantListAvailable')]
+    [Parameter(Mandatory = $false, ParameterSetName = 'MediantSpecific')]
+    [Parameter(Mandatory = $false, ParameterSetName = 'MediantListAvailable')]
     [ValidateSet('http', 'https')]
-    [string]$http = 'http',
+    [string]$http = 'https',
      
     [Parameter(Mandatory = $true, ParameterSetName = 'MediantSpecific')]
     [ValidateSet('realtime', 'average','averageprev')]
@@ -892,7 +1070,7 @@ Function Get-MediantDeviceFileCliScript
      
     [Parameter(Mandatory = $false, ParameterSetName = 'Mediant',Position = 2)]
     [ValidateSet('http', 'https')]
-    [string]$http = 'http',
+    [string]$http = 'https',
   
 
     [Parameter(Mandatory = $false, ParameterSetName = 'MediantDevice',Position = 1)]
@@ -964,7 +1142,7 @@ Function Get-MediantDeviceFileIni
      
     [Parameter(Mandatory = $false, ParameterSetName = 'Mediant',Position = 2)]
     [ValidateSet('http', 'https')]
-    [string]$http = 'http',
+    [string]$http = 'https',
   
     [Parameter(Mandatory = $false, ParameterSetName = 'MediantDevice',Position = 1)]
     [Parameter(Mandatory = $false, ParameterSetName = 'Mediant',Position = 3)]
@@ -1037,10 +1215,10 @@ Function Get-MediantDeviceFileCliScript
     [Parameter(Mandatory = $true, ParameterSetName = 'MediantIncremental',Position = 1)]
     [pscredential]$Credential,
    
-    [Parameter(Mandatory = $true, ParameterSetName = 'MediantFull',Position = 2)]
-    [Parameter(Mandatory = $true, ParameterSetName = 'MediantIncremental',Position = 2)]
+    [Parameter(Mandatory = $false, ParameterSetName = 'MediantFull',Position = 2)]
+    [Parameter(Mandatory = $false, ParameterSetName = 'MediantIncremental',Position = 2)]
     [ValidateSet('http', 'https')]
-    [string]$http,
+     [string]$http = 'https',
     
     [Parameter(Mandatory = $true, ParameterSetName = 'MediantDeviceFull',Position = 1)]
     [Parameter(Mandatory = $true, ParameterSetName = 'MediantFull',Position = 3)]
@@ -1120,74 +1298,75 @@ Function Get-MediantDeviceFileCliScript
 
 
 # SIG # Begin signature block
-# MIINCgYJKoZIhvcNAQcCoIIM+zCCDPcCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
+# MIINHwYJKoZIhvcNAQcCoIINEDCCDQwCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUpspShAI6HJpJVbMVRkWu65CD
-# M7ygggpMMIIFFDCCA/ygAwIBAgIQDq/cAHxKXBt+xmIx8FoOkTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUt5LUAkHVVLgDSMbypt+9mMYe
+# PgWgggphMIIFKTCCBBGgAwIBAgIQD8tApulPpYV/uEuZ3XX3/jANBgkqhkiG9w0B
 # AQsFADByMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYD
 # VQQLExB3d3cuZGlnaWNlcnQuY29tMTEwLwYDVQQDEyhEaWdpQ2VydCBTSEEyIEFz
-# c3VyZWQgSUQgQ29kZSBTaWduaW5nIENBMB4XDTE4MDEwMzAwMDAwMFoXDTE5MDEw
-# ODEyMDAwMFowUTELMAkGA1UEBhMCQVUxGDAWBgNVBAcTD1JvY2hlZGFsZSBTb3V0
-# aDETMBEGA1UEChMKU2hhbmUgSG9leTETMBEGA1UEAxMKU2hhbmUgSG9leTCCASIw
-# DQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANAI9q03Pl+EpWcVZ7PQ3AOJ17k6
-# OoS9SCIbZprs7NhyRIg7mKzxdcHMnjKwUe/7NDlt5mYzXT2yY/0MeUkyspiEs1+t
-# eiHJ6IIs9llWgPGOkV4Ro5fZzlutqeeaomEW/ulH7mVjihVCR6mP/O09YSNo0Dv4
-# AltYmVXqhXTB64NdwupL2G8fmTmVUJsww9abtGxy3mhL/l2W3VBcozZbCZVw363p
-# 9mjeR9WUz5AxZji042xldKB/97cNHd/2YyWuJ8eMlYfRqz1nVgmmpuU+SuApRult
-# hy6wNEngVmJBVhH/a8AH29dEZNL9pzhJGRwGBFi+m/vIr5SFhQVFZYJy79kCAwEA
-# AaOCAcUwggHBMB8GA1UdIwQYMBaAFFrEuXsqCqOl6nEDwGD5LfZldQ5YMB0GA1Ud
-# DgQWBBROEIC6bKfPIk2DtUTZh7HSa5ajqDAOBgNVHQ8BAf8EBAMCB4AwEwYDVR0l
-# BAwwCgYIKwYBBQUHAwMwdwYDVR0fBHAwbjA1oDOgMYYvaHR0cDovL2NybDMuZGln
-# aWNlcnQuY29tL3NoYTItYXNzdXJlZC1jcy1nMS5jcmwwNaAzoDGGL2h0dHA6Ly9j
-# cmw0LmRpZ2ljZXJ0LmNvbS9zaGEyLWFzc3VyZWQtY3MtZzEuY3JsMEwGA1UdIARF
-# MEMwNwYJYIZIAYb9bAMBMCowKAYIKwYBBQUHAgEWHGh0dHBzOi8vd3d3LmRpZ2lj
-# ZXJ0LmNvbS9DUFMwCAYGZ4EMAQQBMIGEBggrBgEFBQcBAQR4MHYwJAYIKwYBBQUH
-# MAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBOBggrBgEFBQcwAoZCaHR0cDov
-# L2NhY2VydHMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0U0hBMkFzc3VyZWRJRENvZGVT
-# aWduaW5nQ0EuY3J0MAwGA1UdEwEB/wQCMAAwDQYJKoZIhvcNAQELBQADggEBAIly
-# KESC2V2sBAl6sIQiHRRgQ9oQdtQamES3fVBNHwmsXl76DdjDURDNi6ptwve3FALo
-# ROZHkrjTU+5r6GaOIopKwE4IXkboVoPBP0wJ4jcVm7kcfKJqllSBGZfpnSUjlaRp
-# EE5k1XdVAGEoz+m0GG+tmb9gGblHUiCAnGWLw9bmRoGbJ20a0IQ8jZsiEq+91Ft3
-# 1vJSBO2RRBgqHTama5GD16OyE3Aps5ypaKYXuq0cnNZCaCasRtDJPolSP4KQ+NVg
-# Z/W/rDiO8LNOTDwGcZ2bYScAT88A5KX42wiKnKldmyXnd4ffrwWk8fPngR5sVhus
-# Arv6TbwR8dRMGwXwQqMwggUwMIIEGKADAgECAhAECRgbX9W7ZnVTQ7VvlVAIMA0G
-# CSqGSIb3DQEBCwUAMGUxCzAJBgNVBAYTAlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJ
-# bmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAiBgNVBAMTG0RpZ2lDZXJ0
-# IEFzc3VyZWQgSUQgUm9vdCBDQTAeFw0xMzEwMjIxMjAwMDBaFw0yODEwMjIxMjAw
-# MDBaMHIxCzAJBgNVBAYTAlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNV
-# BAsTEHd3dy5kaWdpY2VydC5jb20xMTAvBgNVBAMTKERpZ2lDZXJ0IFNIQTIgQXNz
-# dXJlZCBJRCBDb2RlIFNpZ25pbmcgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw
-# ggEKAoIBAQD407Mcfw4Rr2d3B9MLMUkZz9D7RZmxOttE9X/lqJ3bMtdx6nadBS63
-# j/qSQ8Cl+YnUNxnXtqrwnIal2CWsDnkoOn7p0WfTxvspJ8fTeyOU5JEjlpB3gvmh
-# hCNmElQzUHSxKCa7JGnCwlLyFGeKiUXULaGj6YgsIJWuHEqHCN8M9eJNYBi+qsSy
-# rnAxZjNxPqxwoqvOf+l8y5Kh5TsxHM/q8grkV7tKtel05iv+bMt+dDk2DZDv5LVO
-# pKnqagqrhPOsZ061xPeM0SAlI+sIZD5SlsHyDxL0xY4PwaLoLFH3c7y9hbFig3NB
-# ggfkOItqcyDQD2RzPJ6fpjOp/RnfJZPRAgMBAAGjggHNMIIByTASBgNVHRMBAf8E
-# CDAGAQH/AgEAMA4GA1UdDwEB/wQEAwIBhjATBgNVHSUEDDAKBggrBgEFBQcDAzB5
-# BggrBgEFBQcBAQRtMGswJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0
-# LmNvbTBDBggrBgEFBQcwAoY3aHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY29tL0Rp
-# Z2lDZXJ0QXNzdXJlZElEUm9vdENBLmNydDCBgQYDVR0fBHoweDA6oDigNoY0aHR0
-# cDovL2NybDQuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZElEUm9vdENBLmNy
-# bDA6oDigNoY0aHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJl
-# ZElEUm9vdENBLmNybDBPBgNVHSAESDBGMDgGCmCGSAGG/WwAAgQwKjAoBggrBgEF
-# BQcCARYcaHR0cHM6Ly93d3cuZGlnaWNlcnQuY29tL0NQUzAKBghghkgBhv1sAzAd
-# BgNVHQ4EFgQUWsS5eyoKo6XqcQPAYPkt9mV1DlgwHwYDVR0jBBgwFoAUReuir/SS
-# y4IxLVGLp6chnfNtyA8wDQYJKoZIhvcNAQELBQADggEBAD7sDVoks/Mi0RXILHwl
-# KXaoHV0cLToaxO8wYdd+C2D9wz0PxK+L/e8q3yBVN7Dh9tGSdQ9RtG6ljlriXiSB
-# ThCk7j9xjmMOE0ut119EefM2FAaK95xGTlz/kLEbBw6RFfu6r7VRwo0kriTGxycq
-# oSkoGjpxKAI8LpGjwCUR4pwUR6F6aGivm6dcIFzZcbEMj7uo+MUSaJ/PQMtARKUT
-# 8OZkDCUIQjKyNookAv4vcn4c10lFluhZHen6dGRrsutmQ9qzsIzV6Q3d9gEgzpkx
-# Yz0IGhizgZtPxpMQBvwHgfqL2vmCSfdibqFT+hKUGIUukpHqaGxEMrJmoecYpJpk
-# Ue8xggIoMIICJAIBATCBhjByMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNl
-# cnQgSW5jMRkwFwYDVQQLExB3d3cuZGlnaWNlcnQuY29tMTEwLwYDVQQDEyhEaWdp
-# Q2VydCBTSEEyIEFzc3VyZWQgSUQgQ29kZSBTaWduaW5nIENBAhAOr9wAfEpcG37G
-# YjHwWg6RMAkGBSsOAwIaBQCgeDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkG
-# CSqGSIb3DQEJAzEMBgorBgEEAYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEE
-# AYI3AgEVMCMGCSqGSIb3DQEJBDEWBBQqUshoLanll9tpXQ7Fg/oyaRL5MjANBgkq
-# hkiG9w0BAQEFAASCAQAOyXq5YHJy65kbE1m2rPFLKtawVuQulkYaSVizohohW9kP
-# NxnqXmOQeQCKfhYEqB3kFmcmSXTQbFznHkl5R9ZCNum2G+ogtZbgo68WuLwJW51K
-# UcyGnEeYSYVloIOHq7c3qHFJVePygMydIavKWfaPCsHGr/oTsc7oTy4jy+G9K+xZ
-# Rs5CUxcPK2N2tMU00GkFKhFhBBWAYlKgpXKnSwoxVdGZ1etDehT5dpz9nMEIo94u
-# M6zeG0nmAtfRthaAMtMXI7Js4lGWBrVK1rsLWhnuKTpkzphRwtR8Z/Yi9CXKSKIz
-# 8ObPcOxausSZC38XYoze9tzmwsmfFuXGe5WFCOqf
+# c3VyZWQgSUQgQ29kZSBTaWduaW5nIENBMB4XDTE5MDIwOTAwMDAwMFoXDTE5MTAx
+# NTEyMDAwMFowZjELMAkGA1UEBhMCQVUxEzARBgNVBAgTClF1ZWVuc2xhbmQxGDAW
+# BgNVBAcTD1JvY2hlZGFsZSBTb3V0aDETMBEGA1UEChMKU2hhbmUgSG9leTETMBEG
+# A1UEAxMKU2hhbmUgSG9leTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEB
+# ALwO4uf2IRVuz+vei74RR98B7LYaN0CFslmxAOISgihLCAHy6TpWNShnOFQBHz4B
+# vKAX86W5532uyh8pr4pN4UistsyzggFaYrYl7x6KWLGzt/ku0nx4CYnoZaGNdeDc
+# oJ7ukJvaEmD6CDBmIwMYOa7gDih07EAlq1ZCHXLZKTcvQ1YBHkn0sxIDyg3ilrQK
+# mO8G5JHh17GGb+n6OzUWNwYRwCmktEXDMJYVtgmjSVwLbFU+SPgGld5lnzqELjgh
+# NvuVXsdSotJXIXjBAjuZComoSYdEVukYVhNh228TgH/M45M2yLLBgLPnvd/L7gUy
+# /cAEBd45hrjNuwXhXVrgzl0CAwEAAaOCAcUwggHBMB8GA1UdIwQYMBaAFFrEuXsq
+# CqOl6nEDwGD5LfZldQ5YMB0GA1UdDgQWBBRMl/fVAn1vK9RW7FdPr5dMUDNCMTAO
+# BgNVHQ8BAf8EBAMCB4AwEwYDVR0lBAwwCgYIKwYBBQUHAwMwdwYDVR0fBHAwbjA1
+# oDOgMYYvaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL3NoYTItYXNzdXJlZC1jcy1n
+# MS5jcmwwNaAzoDGGL2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNvbS9zaGEyLWFzc3Vy
+# ZWQtY3MtZzEuY3JsMEwGA1UdIARFMEMwNwYJYIZIAYb9bAMBMCowKAYIKwYBBQUH
+# AgEWHGh0dHBzOi8vd3d3LmRpZ2ljZXJ0LmNvbS9DUFMwCAYGZ4EMAQQBMIGEBggr
+# BgEFBQcBAQR4MHYwJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNv
+# bTBOBggrBgEFBQcwAoZCaHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY29tL0RpZ2lD
+# ZXJ0U0hBMkFzc3VyZWRJRENvZGVTaWduaW5nQ0EuY3J0MAwGA1UdEwEB/wQCMAAw
+# DQYJKoZIhvcNAQELBQADggEBADq0MMofNx0tgG3mARjfSWbIE6fUWPDqJwFVfjWy
+# vu+u7qQk6d0RP8EF25najMaEyg6X1Q/Cb6Lo6O9ILn56QKjqtELyFNvq+Ei0hBs7
+# jk/+DAZqhuKFFtVle9hSbM0R41b5viZK+yBrh2SD6kGYSg81XVvzuaWYmNQESoW9
+# bLOnO0QTcuz2Pe/0hYwqUnlCzm3yl9M485TBJdnB754YBgKcrYSLL57Kit4c2U7D
+# rdP0YxAQdjMY9xQacd8Rc16sSyCmi2Q3b8xSkBXSCyqCnkEYMK9n3hlMGw0aM000
+# 4rJaeT94x77x1nhpyKMMHgaK+XmDPMnuYPsKZxX4QE9GCtYwggUwMIIEGKADAgEC
+# AhAECRgbX9W7ZnVTQ7VvlVAIMA0GCSqGSIb3DQEBCwUAMGUxCzAJBgNVBAYTAlVT
+# MRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5j
+# b20xJDAiBgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBDQTAeFw0xMzEw
+# MjIxMjAwMDBaFw0yODEwMjIxMjAwMDBaMHIxCzAJBgNVBAYTAlVTMRUwEwYDVQQK
+# EwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xMTAvBgNV
+# BAMTKERpZ2lDZXJ0IFNIQTIgQXNzdXJlZCBJRCBDb2RlIFNpZ25pbmcgQ0EwggEi
+# MA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQD407Mcfw4Rr2d3B9MLMUkZz9D7
+# RZmxOttE9X/lqJ3bMtdx6nadBS63j/qSQ8Cl+YnUNxnXtqrwnIal2CWsDnkoOn7p
+# 0WfTxvspJ8fTeyOU5JEjlpB3gvmhhCNmElQzUHSxKCa7JGnCwlLyFGeKiUXULaGj
+# 6YgsIJWuHEqHCN8M9eJNYBi+qsSyrnAxZjNxPqxwoqvOf+l8y5Kh5TsxHM/q8grk
+# V7tKtel05iv+bMt+dDk2DZDv5LVOpKnqagqrhPOsZ061xPeM0SAlI+sIZD5SlsHy
+# DxL0xY4PwaLoLFH3c7y9hbFig3NBggfkOItqcyDQD2RzPJ6fpjOp/RnfJZPRAgMB
+# AAGjggHNMIIByTASBgNVHRMBAf8ECDAGAQH/AgEAMA4GA1UdDwEB/wQEAwIBhjAT
+# BgNVHSUEDDAKBggrBgEFBQcDAzB5BggrBgEFBQcBAQRtMGswJAYIKwYBBQUHMAGG
+# GGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBDBggrBgEFBQcwAoY3aHR0cDovL2Nh
+# Y2VydHMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZElEUm9vdENBLmNydDCB
+# gQYDVR0fBHoweDA6oDigNoY0aHR0cDovL2NybDQuZGlnaWNlcnQuY29tL0RpZ2lD
+# ZXJ0QXNzdXJlZElEUm9vdENBLmNybDA6oDigNoY0aHR0cDovL2NybDMuZGlnaWNl
+# cnQuY29tL0RpZ2lDZXJ0QXNzdXJlZElEUm9vdENBLmNybDBPBgNVHSAESDBGMDgG
+# CmCGSAGG/WwAAgQwKjAoBggrBgEFBQcCARYcaHR0cHM6Ly93d3cuZGlnaWNlcnQu
+# Y29tL0NQUzAKBghghkgBhv1sAzAdBgNVHQ4EFgQUWsS5eyoKo6XqcQPAYPkt9mV1
+# DlgwHwYDVR0jBBgwFoAUReuir/SSy4IxLVGLp6chnfNtyA8wDQYJKoZIhvcNAQEL
+# BQADggEBAD7sDVoks/Mi0RXILHwlKXaoHV0cLToaxO8wYdd+C2D9wz0PxK+L/e8q
+# 3yBVN7Dh9tGSdQ9RtG6ljlriXiSBThCk7j9xjmMOE0ut119EefM2FAaK95xGTlz/
+# kLEbBw6RFfu6r7VRwo0kriTGxycqoSkoGjpxKAI8LpGjwCUR4pwUR6F6aGivm6dc
+# IFzZcbEMj7uo+MUSaJ/PQMtARKUT8OZkDCUIQjKyNookAv4vcn4c10lFluhZHen6
+# dGRrsutmQ9qzsIzV6Q3d9gEgzpkxYz0IGhizgZtPxpMQBvwHgfqL2vmCSfdibqFT
+# +hKUGIUukpHqaGxEMrJmoecYpJpkUe8xggIoMIICJAIBATCBhjByMQswCQYDVQQG
+# EwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3d3cuZGlnaWNl
+# cnQuY29tMTEwLwYDVQQDEyhEaWdpQ2VydCBTSEEyIEFzc3VyZWQgSUQgQ29kZSBT
+# aWduaW5nIENBAhAPy0Cm6U+lhX+4S5nddff+MAkGBSsOAwIaBQCgeDAYBgorBgEE
+# AYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEEAYI3AgEEMBwG
+# CisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBTvnvzt
+# KXuQZZSTeeldCbVJCB03AjANBgkqhkiG9w0BAQEFAASCAQA+aKY3/SqLfPi5kybk
+# qlw3r4u243xBfqLPFb9TMFKxScOOpKydGvJxmCiPMS8WXYPREoWpx658p2RUyGcd
+# 75ClF2nGKFSkFVy+mOdN9SoyGFA7bmd0pa5VPzIAsTtPg1Z/mmBOQTlOdOnYrgjx
+# v487ph20/vTqHS3pjJBAVgmWhshilPEfMXeHWHrZpMuw5I7Xx0aElS+vzQa5Iho2
+# NMq4jkDH++GytLWzva9I8oMQ3a0AMRsOv+oWV6o36hPQaM4BNEi02T8zDBOAlyTw
+# Zmz38DCOaZsmJGOT93z/u7OeKXO3e8DzTwBuOdu4snSZsdwIVMbPJmdgVB0lQ5tb
+# mZz4
 # SIG # End signature block

@@ -1,21 +1,43 @@
 
-$BODY = GET-CONTENT .\configs\TEMP.CFG
-$URI =  "HTTP://$MEDIANT/api/v1/files/ini"
+$mediant = "sbc1.aclearning.com.au"
+$body = GET-CONTENT .\configs\dailycheck.cli
+$uri =  "HTTP://$MEDIANT/api/v1/files/ini"
+$password  =  "password" | ConvertTo-SecureString -AsPlainText -Force
 
-$a = Invoke-WebRequest -URI $URI `
+Invoke-WebRequest -URI $URI `
                   -Credential $credential `
                   -Method "get" `
                   -ContentType "application/octet-stream" 
 
-$b = Invoke-WebRequest -URI $URI `
-                  -Credential $credential `
-                  -Method "get" `
-                  -ContentType "application/json" 
 
-$URI =  "HTTP://$MEDIANT/api/v1/files/ini/incremental"
-$BODY
-$filebin = [system.io.file]::ReadAllBytes(".\mediant\configs\TEMP.cfg")
-$enc = [System.Text.Encoding]::GetEncoding("iso-8859-1")
+$FilePath = ".\mediant\configs\dailycheck.cli"
+$URL = "HTTP://$mediant/api/v1/files/ini/incremental"
+
+$fileBytes = [System.IO.File]::ReadAllBytes($FilePath);
+$fileEnc = [System.Text.Encoding]::GetEncoding('UTF-8').GetString($fileBytes)
+$boundary = [System.Guid]::NewGuid().ToString()
+$LF = "`r`n"
+
+$bodyLines = ( 
+    "--$boundary",
+    "Content-Disposition: form-data; name=`"file`"; filename=`"temp.txt`"",
+    "Content-Type: application/octet-stream$LF",
+    $fileEnc,
+    "--$boundary--$LF" 
+) -join $LF
+
+$bodyLines = ( 
+    "--$boundary",
+    "Content-Disposition: form-data; name=`"file`"; filename=`"temp.txt`"",
+    "Content-Type: application/octet-stream$LF",
+    $fileEnc,
+    "--$boundary--$LF" 
+) -join $LF
+
+Invoke-RestMethod -Uri $URL -Method Put -ContentType "multipart/form-data; boundary=`"$boundary`"" -Body $bodyLine -Credential $credential
+
+
+
 
 Invoke-WebRequest -URI $URI `
                   -Credential $credential `
