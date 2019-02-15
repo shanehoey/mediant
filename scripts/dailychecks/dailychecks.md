@@ -17,7 +17,7 @@ To update the Mediant module with PowerShellGet
 
 ```powershell
 
-Install-Module -Name mediant -Scope CurrentUser
+update-Module -Name mediant -Scope CurrentUser
 
 ```
 
@@ -40,7 +40,9 @@ test-MediantTrustCertPolicy -ipphone 172.16.18.131
 if the  IP Phone is not trusted modify the trust cert policy (powershell core you use -skipcertificatecheck instead). Any changes are only valid for the current shell, if you close powershell the TrustAllCertPolicy will be reverted
 
 ```powershell
+
 set-mediantTrustAllCertPolicy
+
 ```
 
 # Example Usages

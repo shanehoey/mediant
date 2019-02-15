@@ -1,3 +1,5 @@
+
+
 import-module .\mediant\mediant.psm1 -force
 
 $mediantdevices = foreach ($mediant in (get-content -Path .\dailychecks.json | convertfrom-json) ) { 
