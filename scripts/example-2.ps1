@@ -9,3 +9,5 @@ $mediantdevice = Get-MediantDevice -Mediant 172.30.69.146 -Credential $mediantcr
 
 Get-MediantDeviceFileCliScript -MediantDevice $mediantdevice
 
+$contents = Get-MediantDeviceFileCliScript -MediantDevice $mediantdevice
+out-file test.ini -InputObject $contents

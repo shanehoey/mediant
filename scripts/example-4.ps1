@@ -7,4 +7,4 @@ $mediantcredential = Get-Credential -UserName "Admin" -Message "Mediant Credenti
 
 $mediantdevice = Get-MediantDevice -Mediant 172.30.69.146 -Credential $mediantcredential -Http http
 
-Get-MediantDeviceStatus -MediantDevice $mediantdevice 
+Get-MediantDeviceStatus -MediantDevice $mediantdevice  | convertto-json  
