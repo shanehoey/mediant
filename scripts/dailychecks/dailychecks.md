@@ -47,17 +47,7 @@ set-mediantTrustAllCertPolicy
 
 # Example Usages
 
-### Login Single IP Phone
-
-The following example will log an AudioCodes IPP Phone on remotely. 
-
- * __ipphone__ Is the IP Address or FQDN of the IP Phone you want to log onto
- * __ippcredential__ Is the Credential(username/password) of the IP Phone (default is admin/1234)
- * __sipaddress__ Is the sip address of the user that you want to log the phone in as
- * __sipcredential__ Is the credential(username/password) of the user that you want to log the phone in as 
-
-
-### Storing MEdiant details in a JSON file 
+### Storing Mediant details in a JSON file 
 
 The following example will store a number of Mediant details in a single json file. 
 
@@ -105,19 +95,6 @@ NOTE:  This script is currently seperate to the module and you must download sep
 
 ```powershell
 
-./invoke-ipphoneScanLogin.ps1 -subnet "172.16.18." -first 131 -last 132 -file .\PRIVATE-phones.json
-
-```
-
-```powershell
-
-# Reboot ALL Phones in subnet 
-./invoke-ipphoneScanMaintenanceTask.ps1 -subnet "172.16.18." -first 131 -last 132
-
-# Factory Default ALL Phones in subnet 
-./invoke-ipphoneScanMaintenanceTask.ps1 -subnet "172.16.18." -first 131 -last 132 -FactoryDefault
-
-#Log Off Phones ALL Phones in subnet
-./invoke-ipphoneScanMaintenanceTask.ps1 -subnet "172.16.18." -first 131 -last 132 -logoff
+./invoke-dailychecks.ps1 -subnet "172.16.18." -first 131 -last 132 -file .\PRIVATE-phones.json
 
 ```
