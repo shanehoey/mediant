@@ -1,6 +1,6 @@
 
 
-import-module .\mediant\mediant.psm1 -force
+import-module mediant -force
 
 $mediantdevices = foreach ($mediant in (get-content -Path .\dailychecks.json | convertfrom-json) ) { 
     Get-MediantDevice -Mediant $mediant.mediant -http https -username $mediant.username -password (ConvertTo-SecureString -String $mediant.password)
