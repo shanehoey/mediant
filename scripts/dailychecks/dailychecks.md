@@ -92,9 +92,10 @@ NOTE:  This script is currently seperate to the module and you must download sep
 
 [Link to Script](https://github.com/shanehoey/mediant/blob/master/scripts/dailychecks/invoke-dailychecks.ps1)
 
+when you run the script the json file create above must be in the same directory call dailychecks.json
 
 ```powershell
 
-./invoke-dailychecks.ps1 -subnet "172.16.18." -first 131 -last 132 -file .\PRIVATE-phones.json
+./invoke-dailychecks.ps1 
 
 ```
