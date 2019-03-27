@@ -88,11 +88,12 @@ If you must do this then use the -cleartext parameter.
 
 #### Daily Check Script
 
-NOTE:  This script is currently seperate to the module and you must download seperatly
+NOTE:  This script is currently seperate to the module and you must download seperatly. 
+when you run the script the json file you create above must be in the same directory and saved as dailychecks.json
+There is a sample json file in the repository below
 
-[Link to Script](https://github.com/shanehoey/mediant/blob/master/scripts/dailychecks/invoke-dailychecks.ps1)
+[Link to Script](https://github.com/shanehoey/mediant/tree/master/scripts/dailychecks)
 
-when you run the script the json file create above must be in the same directory call dailychecks.json
 
 ```powershell
 
