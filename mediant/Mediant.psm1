@@ -191,8 +191,12 @@ Function Invoke-MediantCurlRequest
     [Parameter(Mandatory = $false,  ParameterSetName='file')]
     [Parameter(Mandatory = $false,  ParameterSetName='script')]
     [ValidateSet('PUT')]
-    [string]$Method = "PUT"
-      
+    [string]$Method = "PUT",
+
+    [Parameter(Mandatory = $false,  ParameterSetName='file')]
+    [Parameter(Mandatory = $false,  ParameterSetName='script')]
+    [switch]$insecure
+
   )
   
   Process 
@@ -217,7 +221,14 @@ Function Invoke-MediantCurlRequest
       $path = (get-item $filepath).fullname
     }
     $uri  = "$($http)://$($Mediant)$($Action)"
-    curl.exe --request "$($Method)" --form "file=@$($path)" --header "Expect:" --user "$($credential.username):$($credential.GetNetworkCredential().password)" $uri 
+    if ($insecure) 
+    {
+        curl.exe --request "$($Method)" --form "file=@$($path)" --header "Expect:" --user "$($credential.username):$($credential.GetNetworkCredential().password)" $uri --insecure
+    }
+    else
+    { 
+        curl.exe --request "$($Method)" --form "file=@$($path)" --header "Expect:" --user "$($credential.username):$($credential.GetNetworkCredential().password)" $uri 
+    }
   
     if($script) {
       remove-item -Path $tmp.fullname -force
