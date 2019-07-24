@@ -634,13 +634,16 @@ Function Get-MediantDeviceStatus
         ipAddress         = $json.ipAddress
         subnetMask        = $json.subnetMask
         defaultGateway    = $json.defaultGateway
-        productType       = $json.productType
         versionID         = $json.versionID
+        productType       = $json.productType
         protocolType      = $json.protocolType
         operationalState  = $json.operationalState
         highAvailability  = $json.highAvailability
         serialNumber      = $json.serialNumber
         macAddress        = $json.macAddress
+        systemUpTime      = $json.systemUpTime
+        saveNeeded        = $json.saveNeeded
+        resetNeeded       = $json.resetNeeded
       }
     }
     catch 
@@ -1209,110 +1212,12 @@ Function Get-MediantDeviceFileIni
 }
 
 
-Function Get-MediantDeviceFileCliScript 
-{
-  [CmdletBinding(DefaultParameterSetName = 'MediantDeviceFull', SupportsShouldProcess = $true, ConfirmImpact = 'medium')]
-  
-  param(
-    [Parameter(Mandatory = $true, ParameterSetName = 'MediantDeviceFull',Position = 0)]
-    [Parameter(Mandatory = $true, ParameterSetName = 'MediantDeviceIncremental',Position = 0)]
-    [MediantDevice]$MediantDevice, 
-    
-    [Parameter(Mandatory = $true, ParameterSetName = 'MediantFull',Position = 0)]
-    [Parameter(Mandatory = $true, ParameterSetName = 'MediantIncremental',Position = 0)]
-    [string]$Mediant,
-
-    [Parameter(Mandatory = $true, ParameterSetName = 'MediantFullCli',Position = 1)]
-    [Parameter(Mandatory = $true, ParameterSetName = 'MediantIncremental',Position = 1)]
-    [pscredential]$Credential,
-   
-    [Parameter(Mandatory = $false, ParameterSetName = 'MediantFull',Position = 2)]
-    [Parameter(Mandatory = $false, ParameterSetName = 'MediantIncremental',Position = 2)]
-    [ValidateSet('http', 'https')]
-     [string]$http = 'https',
-    
-    [Parameter(Mandatory = $true, ParameterSetName = 'MediantDeviceFull',Position = 1)]
-    [Parameter(Mandatory = $true, ParameterSetName = 'MediantFull',Position = 3)]
-    [Parameter(Mandatory = $true, ParameterSetName = 'MediantDeviceIncremental',Position = 1)]
-    [Parameter(Mandatory = $true, ParameterSetName = 'MediantIncremental',Position = 3)]
-    [ValidateSet('Full', 'Incremental')]
-    [String]$FileType,
-   
-    
-    [Parameter(Mandatory = $true, ParameterSetName = 'MediantDeviceFull',Position = 2)]
-    [Parameter(Mandatory = $true, ParameterSetName = 'MediantFull',Position = 4)]
-    [Parameter(Mandatory = $true, ParameterSetName = 'MediantDeviceIncremental',Position = 2)]
-    [Parameter(Mandatory = $true, ParameterSetName = 'MediantIncremental',Position = 4)]
-    [String]$file
-    
-        
-    
-  )
- 
-
-  Begin
-  {
-    Write-Warning -Message 'Not Implemented Yet' -WarningAction Inquire
-    if($PSBoundParameters.MediantDevice)
-    {
-      $Mediant     = $MediantDevice.Mediant
-      $Credential  = $MediantDevice.Credential
-      $http        = $MediantDevice.http
-    }   
-
-    $Parameters            = @{ }        
-    $Parameters.mediant    = $Mediant    
-    $Parameters.action     = '/api/v1/files/cliScript'
-    
-    if($PSBoundParameters.MediantDeviceFull)         
-    {
-      $Parameters.action  = '/api/v1/files/cliScript'
-    }
-    if($PSBoundParameters.MediantDeviceIncremental)  
-    {
-      $Parameters.action  = '/api/v1/files/cliScript/incremental'
-    }
-    if($PSBoundParameters.MediantFull)               
-    {
-      $Parameters.action  = '/api/v1/files/cliScript'
-    }
-    if($PSBoundParameters.MediantIncremental)        
-    {
-      $Parameters.action  = '/api/v1/files/cliScript/incremental'
-    }
-    
-    $Parameters.credential = $Credential
-    $Parameters.method     = 'put'
-    $Parameters.http       = $http
-
-  }    
- 
-  Process
-  {
-    if ($pscmdlet.ShouldProcess("$Mediant"))
-    {
-      if (Test-MediantDevice -Mediant $Mediant -Credential $Credential -http $http)
-      {
-        $Result = (Invoke-MediantWebRequest @Parameters)
-        return $Result     
-      }
-      Else
-      {
-        return $null
-      }   
-    }
-  }
-}
-
-
-
-
 
 # SIG # Begin signature block
 # MIINHwYJKoZIhvcNAQcCoIINEDCCDQwCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU4K+BMHBfmSad6XIjUH1H+nFn
-# VI2gggphMIIFKTCCBBGgAwIBAgIQD8tApulPpYV/uEuZ3XX3/jANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUEhEQlFqv/zsiYF4FIeehgAd/
+# YTGgggphMIIFKTCCBBGgAwIBAgIQD8tApulPpYV/uEuZ3XX3/jANBgkqhkiG9w0B
 # AQsFADByMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYD
 # VQQLExB3d3cuZGlnaWNlcnQuY29tMTEwLwYDVQQDEyhEaWdpQ2VydCBTSEEyIEFz
 # c3VyZWQgSUQgQ29kZSBTaWduaW5nIENBMB4XDTE5MDIwOTAwMDAwMFoXDTE5MTAx
@@ -1372,12 +1277,12 @@ Function Get-MediantDeviceFileCliScript
 # cnQuY29tMTEwLwYDVQQDEyhEaWdpQ2VydCBTSEEyIEFzc3VyZWQgSUQgQ29kZSBT
 # aWduaW5nIENBAhAPy0Cm6U+lhX+4S5nddff+MAkGBSsOAwIaBQCgeDAYBgorBgEE
 # AYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEEAYI3AgEEMBwG
-# CisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBTsamAu
-# +KHafEOA4wiCxGoUfQMPSTANBgkqhkiG9w0BAQEFAASCAQCfV+H006oVjUfBFCYw
-# FScoCIjKibEtk8Y78Z00xF4ewetjpXLUvtbBPn/vwehqiXnfaNo8+6It9LuTmooj
-# 79b9VRz5WUHMsHtNQm+IWiKoPRrBTHWWeoVXAO8H31RlTdZT24HPrEE0YaAw2lfU
-# VFMs/dsw3jnGDUB7w2jEO+Cn1mQikkIjAUP6zgGDgMUmwVlZ4oGZZIvNoQXSGC7j
-# Y3UvZvb/kbrkkUqf1spCm+dPsv4zM2EFBjdU2yzhil3pqD34vphSJANtQEwz3PbH
-# biMSVM9L2EiMOKic7/89B4xJgxoIvnqw0xfCO7targdzF+XVDzLioDEucsH1tOIE
-# mTlt
+# CisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJBDEWBBRDOhoH
+# DKkfuC61EadgHyE/v36myDANBgkqhkiG9w0BAQEFAASCAQAEX+egUdCbDbPJxcMu
+# KPtIPygdM4k+PJrDdGa0NChrSg56iPc6T4eddTjCtEKMtm5g6C7eLjpyvXuhAuwv
+# DUeCQqQmedVYo87idy6j8zPoZsrIyBl3NDQPm/c/g1xvS+rmDpqGLvZTqYA82ABP
+# LXYItVOL25t/CAP3ama/esqngsuTw3PRY3ELo8taFJzfY+ry0TGvBrGcfsgyJytb
+# aX7clqtn1eRl1uXXkmzJ+AosXf4D+jxolivK3AUm7F98ilaHCjWh4E1UiSso+uIL
+# Gwz4xrMJUFzyFpDnbF8NUBDZXsh3qWjCdCKi3SjC/FuOYgj8Rx7JQJvvYNXoZ9bS
+# iJVM
 # SIG # End signature block

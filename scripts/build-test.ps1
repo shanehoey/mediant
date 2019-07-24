@@ -4,6 +4,10 @@
 $cert = Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert
 Set-AuthenticodeSignature -filepath ".\mediant\mediant.psd1" -Certificate $cert
 Set-AuthenticodeSignature -filepath ".\mediant\mediant.psm1" -Certificate $cert
+
+Get-AuthenticodeSignature -filepath ".\mediant\Mediant.psd1"
+Get-AuthenticodeSignature -filepath ".\mediant\Mediant.psm1"
+
 import-module .\mediant\Mediant.psm1 -force 
 import-module .\mediant\Mediant.psm1 -force -ArgumentList $false
 get-command -Module mediant | sort-object name | select-object name
