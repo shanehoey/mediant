@@ -3,7 +3,7 @@
 This Mediant Powershell Module is a module I've been using for years personnaly. It will always need new improvements, therefore Contributions in the form of issues and pull requests are welcomed and encouraged.
 
 
-Why not [submit an issue]({{ site.github }}/issues/new) or create [a pull request]({{ site.github }}/pulls).
+Why not [submit an issue](https://github.com/shanehoey/mediant/issues/new) or create [a pull request](https://github.com/shanehoey/mediant/pulls).
 
 
 ## Pull Requests
