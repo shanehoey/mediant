@@ -28,6 +28,9 @@ restart-mediantdevice -mediantdevice $mediantdevice
 ## Distributed under MIT License
 This project is distrubuted undet the MIT License. The license can be viewed [here](https://github.com/shanehoey/mediant/blob/master/LICENSE)
 
+>## Using this Module Commercially ? 
+>Lots of hours have gone into the module and example scripts development, So your [**small donation**](https://www.paypal.me/shanehoey) of a few dollars is much appreciated, and will help me continue improving. 
+
 ## Project Notes
 This Project contains Powershell sample scripts that can be reused / adapted. Please do not just execute scripts without understanding what each and every line will do.
 
