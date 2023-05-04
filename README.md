@@ -1,5 +1,12 @@
 # Mediant PowerShell Module
 
+
+``` 
+<b>Important Note</b> :  This project is out of date, I have plans to update it to the latest Mediant Firmware version, and PowerShell Core, however there is no release date yet
+
+```
+
+
 **Manage an AudioCodes Mediant device directly from PowerShell**
 
 The Mediant PowerShell Module enables you to perform basic management functions on a AudioCodes Mediant Device directly from PowerShell. This unofficial module manages the device via the Rest API.<!---->
