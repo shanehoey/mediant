@@ -1,7 +1,7 @@
 # Mediant PowerShell Module
 
 >
-> <b>Important Note</b> :  This project is out of date, I have plans to update it to the latest Mediant Firmware version, and PowerShell Core, however there is no release date yet
+> <b>Important Note</b> :  This project is out of date, You should use restAPI directly 
 >
 
 
